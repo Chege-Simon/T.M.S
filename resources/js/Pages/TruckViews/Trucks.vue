@@ -6,7 +6,7 @@
             </h2>
         </template> -->
     <div v-if="$page.props.flash.error" class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> {{ $page.props.flash.error }}.
+        <strong>Error! :</strong> {{ $page.props.flash.error }}.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -168,23 +168,23 @@
                     <form @submit.prevent="editTruck(editableTruck.id)" :disabled="form.processing">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="number_plate">Number Plate</label>
-                                <input type="text" class="form-control" id="number_plate" v-model="form.number_plate" placeholder="Enter Number plate">
+                                <label for="edit_number_plate">Number Plate</label>
+                                <input type="text" class="form-control" id="edit_number_plate" v-model="form.number_plate" placeholder="Enter Number plate">
                                 <div class="text-danger font-italic" v-if="errors.number_plate">{{ errors.number_plate }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="manufacturer">Manufacturer</label>
-                                <input type="text" class="form-control" id="manufacturer" v-model="form.manufacturer" placeholder="Enter Manufacturer">
+                                <label for="edit_manufacturer">Manufacturer</label>
+                                <input type="text" class="form-control" id="edit_manufacturer" v-model="form.manufacturer" placeholder="Enter Manufacturer">
                                 <div class="text-danger font-italic" v-if="errors.manufacturer">{{ errors.manufacturer }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="model">Model</label>
-                                <input type="text" class="form-control" id="model" v-model="form.model" placeholder="Enter Model">
+                                <label for="edit_model">Model</label>
+                                <input type="text" class="form-control" id="edit_model" v-model="form.model" placeholder="Enter Model">
                                 <div class="text-danger font-italic" v-if="errors.model">{{ errors.model }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="color">Color</label>
-                                <input type="text" class="form-control" id="color" v-model="form.color" placeholder="Enter Color">
+                                <label for="edit_color">Color</label>
+                                <input type="text" class="form-control" id="edit_color" v-model="form.color" placeholder="Enter Color">
                                 <div class="text-danger font-italic" v-if="errors.color">{{ errors.color }}</div>
                             </div>
                         </div>
@@ -238,25 +238,14 @@
         },
         methods: {
             deleteTruck(id){
-                this.$inertia.delete('/trucks/'+id)
-                .then(() => this.successToast("Truck Deleted Successfully!"))
-                .catch(() => this.errorToast());
+                this.$inertia.delete('/trucks/'+id);
             },
             editTruck(id){
-                // this.form.put('/trucks/'+id)
-                this.$inertia.post('trucks/'+id, this.form)
-                .then(() => this.successToast("Truck Details Edited Successfully!"))
-                .catch(() => this.errorToast());
-                $('#edit-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('trucks/'+id, this.form);
             },
             addTruck(){
-                // this.form.post('/trucks')
-                this.$inertia.post('/trucks', this.form)
-                .then(() => this.successToast("Truck Registered Successfully!"))
-                .catch(() => this.errorToast());
-                $('#create-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/trucks', this.form);
+               
             },
             fillEditForm(truck){
                 this.form.number_plate = truck.number_plate;
@@ -335,6 +324,17 @@
                 $('[data-toggle="tooltip"]').tooltip()
             });
         },
+        updated(){
+            if(this.$page.props.flash.message){
+                this.successToast(this.$page.props.flash.message);
+                $('#create-model').modal('hide');
+                $('#edit-model').modal('hide');
+                this.form.reset();
+                this.$page.props.flash.message = null;
+            }else if(this.$page.props.flash.error){
+                this.errorToast()
+            }  
+        },
         watch: {
             params: {
                 handler() {
@@ -349,6 +349,14 @@
 
                     this.$inertia.get(this.route('trucks.index'), params, {replace: true, preserveState: true});
                 },
+                deep: true,
+            },
+            message: {
+                handler() {
+                    let message = this.message;
+                    console.log(message);
+                    console.log("hi");
+                    },
                 deep: true,
             }
         }

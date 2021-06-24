@@ -18867,35 +18867,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteBill: function deleteBill(id) {
-      var _this = this;
-
-      this.$inertia["delete"]('/bills/' + id).then(function () {
-        return _this.successToast("Bill Deleted Successfully!");
-      })["catch"](function () {
-        return _this.errorToast();
-      });
+      this.$inertia["delete"]('/bills/' + id);
     },
     editBill: function editBill(id) {
-      var _this2 = this;
-
-      this.$inertia.post('/bills/' + id, this.form).then(function () {
-        return _this2.successToast("Bill Details Edited Successfully!");
-      })["catch"](function () {
-        return _this2.errorToast();
-      });
-      $('#edit-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/bills/' + id, this.form);
     },
     addBill: function addBill() {
-      var _this3 = this;
-
-      this.$inertia.post('/bills', this.form).then(function () {
-        return _this3.successToast("Bill Registered Successfully!");
-      })["catch"](function () {
-        return _this3.errorToast();
-      });
-      $('#create-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/bills', this.form);
     },
     fillEditForm: function fillEditForm(bill) {
       this.form.date = bill.date;
@@ -18914,7 +18892,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //open modals functions here
     deleteModal: function deleteModal(bill) {
-      var _this4 = this;
+      var _this = this;
 
       // $('#delete-confirmation').modal('show')
       this.$swal.fire({
@@ -18927,7 +18905,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          _this4.deleteBill(bill.id);
+          _this.deleteBill(bill.id);
         }
       });
     },
@@ -18941,7 +18919,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //toast options functions
     errorToast: function errorToast() {
-      var _this5 = this;
+      var _this2 = this;
 
       this.$swal.fire({
         toast: true,
@@ -18952,13 +18930,13 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'error',
         title: "Oops... something went wrong!",
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this5.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this5.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this2.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this2.$swal.resumeTimer);
         }
       });
     },
     successToast: function successToast(message) {
-      var _this6 = this;
+      var _this3 = this;
 
       this.$swal.fire({
         toast: true,
@@ -18969,8 +18947,8 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'success',
         title: message,
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this6.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this6.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this3.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this3.$swal.resumeTimer);
         }
       });
     }
@@ -18979,6 +18957,17 @@ __webpack_require__.r(__webpack_exports__);
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
+  },
+  updated: function updated() {
+    if (this.$page.props.flash.message) {
+      this.successToast(this.$page.props.flash.message);
+      $('#create-model').modal('hide');
+      $('#edit-model').modal('hide');
+      this.form.reset();
+      this.$page.props.flash.message = null;
+    } else if (this.$page.props.flash.error) {
+      this.errorToast();
+    }
   },
   watch: {
     params: {
@@ -19044,35 +19033,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteClient: function deleteClient(id) {
-      var _this = this;
-
-      this.$inertia["delete"]('/clients/' + id).then(function () {
-        return _this.successToast("Client Deleted Successfully!");
-      })["catch"](function () {
-        return _this.errorToast();
-      });
+      this.$inertia["delete"]('/clients/' + id);
     },
     editClient: function editClient(id) {
-      var _this2 = this;
-
-      this.$inertia.post('/clients/' + id, this.form).then(function () {
-        return _this2.successToast("Client Details Edited Successfully!");
-      })["catch"](function () {
-        return _this2.errorToast();
-      });
-      $('#edit-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/clients/' + id, this.form);
     },
     addClient: function addClient() {
-      var _this3 = this;
-
-      this.$inertia.post('/clients', this.form).then(function () {
-        return _this3.successToast("Client Registered Successfully!");
-      })["catch"](function () {
-        return _this3.errorToast();
-      });
-      $('#create-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/clients', this.form);
     },
     fillEditForm: function fillEditForm(client) {
       this.form.name = client.name;
@@ -19091,7 +19058,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //open modals functions here
     deleteModal: function deleteModal(client) {
-      var _this4 = this;
+      var _this = this;
 
       // $('#delete-confirmation').modal('show')
       this.$swal.fire({
@@ -19104,7 +19071,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          _this4.deleteClient(client.id);
+          _this.deleteClient(client.id);
         }
       });
     },
@@ -19118,7 +19085,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //toast options functions
     errorToast: function errorToast() {
-      var _this5 = this;
+      var _this2 = this;
 
       this.$swal.fire({
         toast: true,
@@ -19129,13 +19096,13 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'error',
         title: "Oops... something went wrong!",
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this5.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this5.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this2.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this2.$swal.resumeTimer);
         }
       });
     },
     successToast: function successToast(message) {
-      var _this6 = this;
+      var _this3 = this;
 
       this.$swal.fire({
         toast: true,
@@ -19146,8 +19113,8 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'success',
         title: message,
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this6.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this6.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this3.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this3.$swal.resumeTimer);
         }
       });
     }
@@ -19156,6 +19123,17 @@ __webpack_require__.r(__webpack_exports__);
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
+  },
+  updated: function updated() {
+    if (this.$page.props.flash.message) {
+      this.successToast(this.$page.props.flash.message);
+      $('#create-model').modal('hide');
+      $('#edit-model').modal('hide');
+      this.form.reset();
+      this.$page.props.flash.message = null;
+    } else if (this.$page.props.flash.error) {
+      this.errorToast();
+    }
   },
   watch: {
     params: {
@@ -19245,35 +19223,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteDriver: function deleteDriver(id) {
-      var _this = this;
-
-      this.$inertia["delete"]('/drivers/' + id).then(function () {
-        return _this.successToast("Driver Deleted Successfully!");
-      })["catch"](function () {
-        return _this.errorToast();
-      });
+      this.$inertia["delete"]('/drivers/' + id);
     },
     editDriver: function editDriver(id) {
-      var _this2 = this;
-
-      this.$inertia.post('/drivers/' + id, this.form).then(function () {
-        return _this2.successToast("Driver Details Edited Successfully!");
-      })["catch"](function () {
-        return _this2.errorToast();
-      });
-      $('#edit-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/drivers/' + id, this.form);
     },
     addDriver: function addDriver() {
-      var _this3 = this;
-
-      this.$inertia.post('/drivers', this.form).then(function () {
-        return _this3.successToast("Driver Registered Successfully!");
-      })["catch"](function () {
-        return _this3.errorToast();
-      });
-      $('#create-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/drivers', this.form);
     },
     fillEditForm: function fillEditForm(driver) {
       this.form.name = driver.name;
@@ -19292,7 +19248,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //open modals functions here
     deleteModal: function deleteModal(driver) {
-      var _this4 = this;
+      var _this = this;
 
       // $('#delete-confirmation').modal('show')
       this.$swal.fire({
@@ -19305,7 +19261,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          _this4.deleteDriver(driver.id);
+          _this.deleteDriver(driver.id);
         }
       });
     },
@@ -19319,7 +19275,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //toast options functions
     errorToast: function errorToast() {
-      var _this5 = this;
+      var _this2 = this;
 
       this.$swal.fire({
         toast: true,
@@ -19330,13 +19286,13 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'error',
         title: "Oops... something went wrong!",
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this5.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this5.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this2.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this2.$swal.resumeTimer);
         }
       });
     },
     successToast: function successToast(message) {
-      var _this6 = this;
+      var _this3 = this;
 
       this.$swal.fire({
         toast: true,
@@ -19347,8 +19303,8 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'success',
         title: message,
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this6.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this6.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this3.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this3.$swal.resumeTimer);
         }
       });
     }
@@ -19357,6 +19313,17 @@ __webpack_require__.r(__webpack_exports__);
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
+  },
+  updated: function updated() {
+    if (this.$page.props.flash.message) {
+      this.successToast(this.$page.props.flash.message);
+      $('#create-model').modal('hide');
+      $('#edit-model').modal('hide');
+      this.form.reset();
+      this.$page.props.flash.message = null;
+    } else if (this.$page.props.flash.error) {
+      this.errorToast();
+    }
   },
   watch: {
     params: {
@@ -19420,35 +19387,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteExpense: function deleteExpense(id) {
-      var _this = this;
-
-      this.$inertia["delete"]('/expenses/' + id).then(function () {
-        return _this.successToast("Expense Deleted Successfully!");
-      })["catch"](function () {
-        return _this.errorToast();
-      });
+      this.$inertia["delete"]('/expenses/' + id);
     },
     editExpense: function editExpense(id) {
-      var _this2 = this;
-
-      this.$inertia.post('/expenses/' + id, this.form).then(function () {
-        return _this2.successToast("Expense Details Edited Successfully!");
-      })["catch"](function () {
-        return _this2.errorToast();
-      });
-      $('#edit-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/expenses/' + id, this.form);
     },
     addExpense: function addExpense() {
-      var _this3 = this;
-
-      this.$inertia.post('/expenses', this.form).then(function () {
-        return _this3.successToast("Expense Registered Successfully!");
-      })["catch"](function () {
-        return _this3.errorToast();
-      });
-      $('#create-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/expenses', this.form);
     },
     fillEditForm: function fillEditForm(expense) {
       this.form.expense_type = expense.expense_type;
@@ -19465,7 +19410,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //open modals functions here
     deleteModal: function deleteModal(expense) {
-      var _this4 = this;
+      var _this = this;
 
       // $('#delete-confirmation').modal('show')
       this.$swal.fire({
@@ -19478,7 +19423,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          _this4.deleteExpense(expense.id);
+          _this.deleteExpense(expense.id);
         }
       });
     },
@@ -19492,7 +19437,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //toast options functions
     errorToast: function errorToast() {
-      var _this5 = this;
+      var _this2 = this;
 
       this.$swal.fire({
         toast: true,
@@ -19503,13 +19448,13 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'error',
         title: "Oops... something went wrong!",
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this5.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this5.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this2.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this2.$swal.resumeTimer);
         }
       });
     },
     successToast: function successToast(message) {
-      var _this6 = this;
+      var _this3 = this;
 
       this.$swal.fire({
         toast: true,
@@ -19520,8 +19465,8 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'success',
         title: message,
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this6.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this6.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this3.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this3.$swal.resumeTimer);
         }
       });
     }
@@ -19530,6 +19475,17 @@ __webpack_require__.r(__webpack_exports__);
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
+  },
+  updated: function updated() {
+    if (this.$page.props.flash.message) {
+      this.successToast(this.$page.props.flash.message);
+      $('#create-model').modal('hide');
+      $('#edit-model').modal('hide');
+      this.form.reset();
+      this.$page.props.flash.message = null;
+    } else if (this.$page.props.flash.error) {
+      this.errorToast();
+    }
   },
   watch: {
     params: {
@@ -20063,35 +20019,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteRegion: function deleteRegion(id) {
-      var _this = this;
-
-      this.$inertia["delete"]('/regions/' + id).then(function () {
-        return _this.successToast("Region Deleted Successfully!");
-      })["catch"](function () {
-        return _this.errorToast();
-      });
+      this.$inertia["delete"]('/regions/' + id);
     },
     editRegion: function editRegion(id) {
-      var _this2 = this;
-
-      this.$inertia.post('/regions/' + id, this.form).then(function () {
-        return _this2.successToast("Region Details Edited Successfully!");
-      })["catch"](function () {
-        return _this2.errorToast();
-      });
-      $('#edit-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/regions/' + id, this.form);
     },
     addRegion: function addRegion() {
-      var _this3 = this;
-
-      this.$inertia.post('/regions', this.form).then(function () {
-        return _this3.successToast("Region Registered Successfully!");
-      })["catch"](function () {
-        return _this3.errorToast();
-      });
-      $('#create-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/regions', this.form);
     },
     fillEditForm: function fillEditForm(region) {
       this.form.name = region.name;
@@ -20109,7 +20043,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //open modals functions here
     deleteModal: function deleteModal(region) {
-      var _this4 = this;
+      var _this = this;
 
       // $('#delete-confirmation').modal('show')
       this.$swal.fire({
@@ -20122,7 +20056,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          _this4.deleteRegion(region.id);
+          _this.deleteRegion(region.id);
         }
       });
     },
@@ -20136,7 +20070,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //toast options functions
     errorToast: function errorToast() {
-      var _this5 = this;
+      var _this2 = this;
 
       this.$swal.fire({
         toast: true,
@@ -20147,13 +20081,13 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'error',
         title: "Oops... something went wrong!",
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this5.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this5.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this2.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this2.$swal.resumeTimer);
         }
       });
     },
     successToast: function successToast(message) {
-      var _this6 = this;
+      var _this3 = this;
 
       this.$swal.fire({
         toast: true,
@@ -20164,8 +20098,8 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'success',
         title: message,
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this6.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this6.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this3.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this3.$swal.resumeTimer);
         }
       });
     }
@@ -20174,6 +20108,17 @@ __webpack_require__.r(__webpack_exports__);
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
+  },
+  updated: function updated() {
+    if (this.$page.props.flash.message) {
+      this.successToast(this.$page.props.flash.message);
+      $('#create-model').modal('hide');
+      $('#edit-model').modal('hide');
+      this.form.reset();
+      this.$page.props.flash.message = null;
+    } else if (this.$page.props.flash.error) {
+      this.errorToast();
+    }
   },
   watch: {
     params: {
@@ -20263,35 +20208,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteTrackRecord: function deleteTrackRecord(id) {
-      var _this = this;
-
-      this.$inertia["delete"]('/track-record/' + id).then(function () {
-        return _this.successToast("Track Record  Deleted Successfully!");
-      })["catch"](function () {
-        return _this.errorToast();
-      });
+      this.$inertia["delete"]('/track-record/' + id);
     },
     editTrackRecord: function editTrackRecord(id) {
-      var _this2 = this;
-
-      this.$inertia.post('track-record/' + id, this.form).then(function () {
-        return _this2.successToast("Track Record  Details Edited Successfully!");
-      })["catch"](function () {
-        return _this2.errorToast();
-      });
-      $('#edit-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('track-record/' + id, this.form);
     },
     addTrackRecord: function addTrackRecord() {
-      var _this3 = this;
-
-      this.$inertia.post('/track-record', this.form).then(function () {
-        return _this3.successToast("Track Record  Registered Successfully!");
-      })["catch"](function () {
-        return _this3.errorToast();
-      });
-      $('#create-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/track-record', this.form);
     },
     fillEditForm: function fillEditForm(track_record) {
       this.form.date = track_record.date;
@@ -20312,7 +20235,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //open modals functions here
     deleteModal: function deleteModal(track_record) {
-      var _this4 = this;
+      var _this = this;
 
       // $('#delete-confirmation').modal('show')
       this.$swal.fire({
@@ -20325,7 +20248,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          _this4.deleteTrackRecord(track_record.id);
+          _this.deleteTrackRecord(track_record.id);
         }
       });
     },
@@ -20339,7 +20262,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //toast options functions
     errorToast: function errorToast() {
-      var _this5 = this;
+      var _this2 = this;
 
       this.$swal.fire({
         toast: true,
@@ -20350,13 +20273,13 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'error',
         title: "Oops... something went wrong!",
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this5.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this5.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this2.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this2.$swal.resumeTimer);
         }
       });
     },
     successToast: function successToast(message) {
-      var _this6 = this;
+      var _this3 = this;
 
       this.$swal.fire({
         toast: true,
@@ -20367,8 +20290,8 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'success',
         title: message,
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this6.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this6.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this3.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this3.$swal.resumeTimer);
         }
       });
     }
@@ -20377,6 +20300,17 @@ __webpack_require__.r(__webpack_exports__);
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
+  },
+  updated: function updated() {
+    if (this.$page.props.flash.message) {
+      this.successToast(this.$page.props.flash.message);
+      $('#create-model').modal('hide');
+      $('#edit-model').modal('hide');
+      this.form.reset();
+      this.$page.props.flash.message = null;
+    } else if (this.$page.props.flash.error) {
+      this.errorToast();
+    }
   },
   watch: {
     params: {
@@ -20442,37 +20376,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteTruck: function deleteTruck(id) {
-      var _this = this;
-
-      this.$inertia["delete"]('/trucks/' + id).then(function () {
-        return _this.successToast("Truck Deleted Successfully!");
-      })["catch"](function () {
-        return _this.errorToast();
-      });
+      this.$inertia["delete"]('/trucks/' + id);
     },
     editTruck: function editTruck(id) {
-      var _this2 = this;
-
-      // this.form.put('/trucks/'+id)
-      this.$inertia.post('trucks/' + id, this.form).then(function () {
-        return _this2.successToast("Truck Details Edited Successfully!");
-      })["catch"](function () {
-        return _this2.errorToast();
-      });
-      $('#edit-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('trucks/' + id, this.form);
     },
     addTruck: function addTruck() {
-      var _this3 = this;
-
-      // this.form.post('/trucks')
-      this.$inertia.post('/trucks', this.form).then(function () {
-        return _this3.successToast("Truck Registered Successfully!");
-      })["catch"](function () {
-        return _this3.errorToast();
-      });
-      $('#create-model').modal('hide');
-      this.form.reset();
+      this.$inertia.post('/trucks', this.form);
     },
     fillEditForm: function fillEditForm(truck) {
       this.form.number_plate = truck.number_plate;
@@ -20491,7 +20401,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //open modals functions here
     deleteModal: function deleteModal(truck) {
-      var _this4 = this;
+      var _this = this;
 
       // $('#delete-confirmation').modal('show')
       this.$swal.fire({
@@ -20504,7 +20414,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          _this4.deleteTruck(truck.id);
+          _this.deleteTruck(truck.id);
         }
       });
     },
@@ -20518,7 +20428,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     //toast options functions
     errorToast: function errorToast() {
-      var _this5 = this;
+      var _this2 = this;
 
       this.$swal.fire({
         toast: true,
@@ -20529,13 +20439,13 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'error',
         title: "Oops... something went wrong!",
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this5.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this5.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this2.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this2.$swal.resumeTimer);
         }
       });
     },
     successToast: function successToast(message) {
-      var _this6 = this;
+      var _this3 = this;
 
       this.$swal.fire({
         toast: true,
@@ -20546,8 +20456,8 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'success',
         title: message,
         didOpen: function didOpen(toast) {
-          toast.addEventListener('mouseenter', _this6.$swal.stopTimer);
-          toast.addEventListener('mouseleave', _this6.$swal.resumeTimer);
+          toast.addEventListener('mouseenter', _this3.$swal.stopTimer);
+          toast.addEventListener('mouseleave', _this3.$swal.resumeTimer);
         }
       });
     }
@@ -20556,6 +20466,17 @@ __webpack_require__.r(__webpack_exports__);
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
+  },
+  updated: function updated() {
+    if (this.$page.props.flash.message) {
+      this.successToast(this.$page.props.flash.message);
+      $('#create-model').modal('hide');
+      $('#edit-model').modal('hide');
+      this.form.reset();
+      this.$page.props.flash.message = null;
+    } else if (this.$page.props.flash.error) {
+      this.errorToast();
+    }
   },
   watch: {
     params: {
@@ -20570,6 +20491,14 @@ __webpack_require__.r(__webpack_exports__);
           replace: true,
           preserveState: true
         });
+      },
+      deep: true
+    },
+    message: {
+      handler: function handler() {
+        var message = this.message;
+        console.log(message);
+        console.log("hi");
       },
       deep: true
     }
@@ -23690,7 +23619,7 @@ var _hoisted_1 = {
   role: "alert"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error!", -1
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error! :", -1
 /* HOISTED */
 );
 
@@ -23717,7 +23646,7 @@ var _hoisted_6 = {
 
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", {
   "class": "card-title col-md-2"
-}, "All Payed Bills", -1
+}, "All Paid Bills", -1
 /* HOISTED */
 );
 
@@ -24062,7 +23991,7 @@ var _hoisted_68 = {
 };
 
 var _hoisted_69 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "expense_type"
+  "for": "edit_expense_type"
 }, "Expense", -1
 /* HOISTED */
 );
@@ -24076,7 +24005,7 @@ var _hoisted_71 = {
 };
 
 var _hoisted_72 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "truck"
+  "for": "edit_truck"
 }, "Truck", -1
 /* HOISTED */
 );
@@ -24090,7 +24019,7 @@ var _hoisted_74 = {
 };
 
 var _hoisted_75 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "date"
+  "for": "edit_date"
 }, "Date", -1
 /* HOISTED */
 );
@@ -24104,7 +24033,7 @@ var _hoisted_77 = {
 };
 
 var _hoisted_78 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "amount"
+  "for": "edit_amount"
 }, "Amount", -1
 /* HOISTED */
 );
@@ -24213,7 +24142,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.form.expense_type = $event;
     }),
-    placeholder: "Enter Number plate"
+    placeholder: "Enter Expense"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.expense_type]]), $props.errors.expense_type ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.expense_type), 1
@@ -24225,7 +24154,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.form.truck = $event;
     }),
-    placeholder: "Enter truck"
+    placeholder: "Enter Truck"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.truck]]), $props.errors.truck ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.truck), 1
@@ -24243,13 +24172,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.date]]), $props.errors.date ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.date), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_56, [_hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    type: "amount",
+    type: "number",
     "class": "form-control",
     id: "amount",
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
       return $data.form.amount = $event;
     }),
-    placeholder: "Enter Assigned Truck"
+    placeholder: "Enter Amount"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.amount]]), $props.errors.amount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.amount), 1
@@ -24264,11 +24193,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_68, [_hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "expense_type",
+    id: "edit_expense_type",
     "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $data.form.expense_type = $event;
     }),
-    placeholder: "Enter Number plate"
+    placeholder: "Enter Expense"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.expense_type]]), $props.errors.expense_type ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_70, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.expense_type), 1
@@ -24276,11 +24205,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_71, [_hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "truck",
+    id: "edit_truck",
     "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       return $data.form.truck = $event;
     }),
-    placeholder: "Enter truck"
+    placeholder: "Enter Truck"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.truck]]), $props.errors.truck ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.truck), 1
@@ -24298,13 +24227,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.date]]), $props.errors.date ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_76, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.date), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_77, [_hoisted_78, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    type: "amount",
+    type: "number",
     "class": "form-control",
-    id: "amount",
+    id: "edit_amount",
     "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
       return $data.form.amount = $event;
     }),
-    placeholder: "Enter Assigned Truck"
+    placeholder: "Enter Amount"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.amount]]), $props.errors.amount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_79, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.amount), 1
@@ -24337,7 +24266,7 @@ var _hoisted_1 = {
   role: "alert"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error!", -1
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error! :", -1
 /* HOISTED */
 );
 
@@ -24610,7 +24539,7 @@ var _hoisted_50 = {
 
 var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "for": "phone_number"
-}, "phone_number", -1
+}, "Phone Number", -1
 /* HOISTED */
 );
 
@@ -24709,7 +24638,7 @@ var _hoisted_68 = {
 };
 
 var _hoisted_69 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "name"
+  "for": "edit_name"
 }, "Name", -1
 /* HOISTED */
 );
@@ -24723,8 +24652,8 @@ var _hoisted_71 = {
 };
 
 var _hoisted_72 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "phone_number"
-}, "phone_number", -1
+  "for": "edit_phone_number"
+}, "Phone Number", -1
 /* HOISTED */
 );
 
@@ -24737,7 +24666,7 @@ var _hoisted_74 = {
 };
 
 var _hoisted_75 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "email"
+  "for": "edit_email"
 }, "Email", -1
 /* HOISTED */
 );
@@ -24751,7 +24680,7 @@ var _hoisted_77 = {
 };
 
 var _hoisted_78 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "address"
+  "for": "edit_address"
 }, "Address", -1
 /* HOISTED */
 );
@@ -24860,7 +24789,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.form.name = $event;
     }),
-    placeholder: "Enter Number plate"
+    placeholder: "Enter Name"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.name]]), $props.errors.name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.name), 1
@@ -24872,7 +24801,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.form.phone_number = $event;
     }),
-    placeholder: "Enter phone_number"
+    placeholder: "Enter Phone Number"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.phone_number]]), $props.errors.phone_number ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.phone_number), 1
@@ -24884,7 +24813,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
       return $data.form.email = $event;
     }),
-    placeholder: "Enter Assigned Truck"
+    placeholder: "Enter Email"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]]), $props.errors.email ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.email), 1
@@ -24896,7 +24825,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
       return $data.form.address = $event;
     }),
-    placeholder: "Enter address"
+    placeholder: "Enter Address"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.address]]), $props.errors.address ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.address), 1
@@ -24911,11 +24840,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_68, [_hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "name",
+    id: "edit_name",
     "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $data.form.name = $event;
     }),
-    placeholder: "Enter Number plate"
+    placeholder: "Enter Name"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.name]]), $props.errors.name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_70, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.name), 1
@@ -24923,11 +24852,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_71, [_hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "phone_number",
+    id: "edit_phone_number",
     "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       return $data.form.phone_number = $event;
     }),
-    placeholder: "Enter phone_number"
+    placeholder: "Enter Phone Number"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.phone_number]]), $props.errors.phone_number ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.phone_number), 1
@@ -24935,11 +24864,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_74, [_hoisted_75, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "email",
     "class": "form-control",
-    id: "email",
+    id: "edit_email",
     "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
       return $data.form.email = $event;
     }),
-    placeholder: "Enter Assigned Truck"
+    placeholder: "Enter Email"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]]), $props.errors.email ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_76, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.email), 1
@@ -24947,11 +24876,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_77, [_hoisted_78, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "address",
+    id: "edit_address",
     "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
       return $data.form.address = $event;
     }),
-    placeholder: "Enter address"
+    placeholder: "Enter Address"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.address]]), $props.errors.address ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_79, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.address), 1
@@ -25024,7 +24953,7 @@ var _hoisted_1 = {
   role: "alert"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error!", -1
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error! :", -1
 /* HOISTED */
 );
 
@@ -25396,7 +25325,7 @@ var _hoisted_68 = {
 };
 
 var _hoisted_69 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "name"
+  "for": "edit_name"
 }, "Name", -1
 /* HOISTED */
 );
@@ -25410,7 +25339,7 @@ var _hoisted_71 = {
 };
 
 var _hoisted_72 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "phone_number"
+  "for": "edit_phone_number"
 }, "phone_number", -1
 /* HOISTED */
 );
@@ -25424,7 +25353,7 @@ var _hoisted_74 = {
 };
 
 var _hoisted_75 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "assigned_truck"
+  "for": "edit_assigned_truck"
 }, "Assigned Truck", -1
 /* HOISTED */
 );
@@ -25438,7 +25367,7 @@ var _hoisted_77 = {
 };
 
 var _hoisted_78 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "allowances"
+  "for": "edit_allowances"
 }, "Allowances", -1
 /* HOISTED */
 );
@@ -25547,7 +25476,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.form.name = $event;
     }),
-    placeholder: "Enter Number plate"
+    placeholder: "Enter Name"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.name]]), $props.errors.name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.name), 1
@@ -25559,7 +25488,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.form.phone_number = $event;
     }),
-    placeholder: "Enter phone_number"
+    placeholder: "Enter Phone Number"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.phone_number]]), $props.errors.phone_number ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.phone_number), 1
@@ -25577,7 +25506,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.assigned_truck]]), $props.errors.assigned_truck ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.assigned_truck), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_56, [_hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    type: "text",
+    type: "number",
     "class": "form-control",
     id: "allowances",
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
@@ -25598,11 +25527,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_68, [_hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "name",
+    id: "edit_name",
     "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $data.form.name = $event;
     }),
-    placeholder: "Enter Number plate"
+    placeholder: "Enter Name"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.name]]), $props.errors.name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_70, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.name), 1
@@ -25610,11 +25539,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_71, [_hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "phone_number",
+    id: "edit_phone_number",
     "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       return $data.form.phone_number = $event;
     }),
-    placeholder: "Enter phone_number"
+    placeholder: "Enter Phone number"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.phone_number]]), $props.errors.phone_number ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.phone_number), 1
@@ -25622,7 +25551,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_74, [_hoisted_75, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "assigned_truck",
+    id: "edit_assigned_truck",
     "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
       return $data.form.assigned_truck = $event;
     }),
@@ -25632,9 +25561,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.assigned_truck]]), $props.errors.assigned_truck ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_76, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.assigned_truck), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_77, [_hoisted_78, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    type: "text",
+    type: "number",
     "class": "form-control",
-    id: "allowances",
+    id: "edit_allowances",
     "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
       return $data.form.allowances = $event;
     }),
@@ -25671,7 +25600,7 @@ var _hoisted_1 = {
   role: "alert"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error!", -1
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error! :", -1
 /* HOISTED */
 );
 
@@ -25947,7 +25876,7 @@ var _hoisted_52 = {
 };
 
 var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "expense_type"
+  "for": "edit_expense_type"
 }, "Expense", -1
 /* HOISTED */
 );
@@ -25961,7 +25890,7 @@ var _hoisted_55 = {
 };
 
 var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "account"
+  "for": "edit_account"
 }, "Account", -1
 /* HOISTED */
 );
@@ -26064,7 +25993,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.expense_type]]), $props.errors.expense_type ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.expense_type), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_40, [_hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    type: "account",
+    type: "text",
     "class": "form-control",
     id: "account",
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
@@ -26085,7 +26014,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_52, [_hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "expense_type",
+    id: "edit_expense_type",
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.form.expense_type = $event;
     }),
@@ -26095,9 +26024,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.expense_type]]), $props.errors.expense_type ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.expense_type), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_55, [_hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    type: "account",
+    type: "text",
     "class": "form-control",
-    id: "account",
+    id: "edit_account",
     "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
       return $data.form.account = $event;
     }),
@@ -27208,7 +27137,7 @@ var _hoisted_1 = {
   role: "alert"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error!", -1
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error! :", -1
 /* HOISTED */
 );
 
@@ -27532,7 +27461,7 @@ var _hoisted_60 = {
 };
 
 var _hoisted_61 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "name"
+  "for": "edit_name"
 }, "Name", -1
 /* HOISTED */
 );
@@ -27546,7 +27475,7 @@ var _hoisted_63 = {
 };
 
 var _hoisted_64 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "truck_model"
+  "for": "edit_truck_model"
 }, "Truck Model", -1
 /* HOISTED */
 );
@@ -27560,7 +27489,7 @@ var _hoisted_66 = {
 };
 
 var _hoisted_67 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "pricing"
+  "for": "edit_pricing"
 }, "Pricing", -1
 /* HOISTED */
 );
@@ -27663,7 +27592,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.form.name = $event;
     }),
-    placeholder: "Enter Number plate"
+    placeholder: "Enter Name"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.name]]), $props.errors.name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.name), 1
@@ -27675,19 +27604,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.form.truck_model = $event;
     }),
-    placeholder: "Enter truck_model"
+    placeholder: "Enter Truck Model"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.truck_model]]), $props.errors.truck_model ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.truck_model), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_48, [_hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    type: "pricing",
+    type: "number",
     "class": "form-control",
     id: "pricing",
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.form.pricing = $event;
     }),
-    placeholder: "Enter Assigned Truck"
+    placeholder: "Enter Pricing"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.pricing]]), $props.errors.pricing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.pricing), 1
@@ -27702,11 +27631,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_60, [_hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "name",
+    id: "edit_name",
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
       return $data.form.name = $event;
     }),
-    placeholder: "Enter Number plate"
+    placeholder: "Enter Name"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.name]]), $props.errors.name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.name), 1
@@ -27714,23 +27643,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_63, [_hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "truck_model",
+    id: "edit_truck_model",
     "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
       return $data.form.truck_model = $event;
     }),
-    placeholder: "Enter truck_model"
+    placeholder: "Enter Truck Model"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.truck_model]]), $props.errors.truck_model ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.truck_model), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_66, [_hoisted_67, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    type: "pricing",
+    type: "number",
     "class": "form-control",
-    id: "pricing",
+    id: "edit_pricing",
     "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $data.form.pricing = $event;
     }),
-    placeholder: "Enter Assigned Truck"
+    placeholder: "Enter Pricing"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.pricing]]), $props.errors.pricing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_68, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.errors.pricing), 1
@@ -27798,7 +27727,7 @@ var _hoisted_1 = {
   role: "alert"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error!", -1
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error! :", -1
 /* HOISTED */
 );
 
@@ -28266,7 +28195,7 @@ var _hoisted_84 = {
 };
 
 var _hoisted_85 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "date"
+  "for": "edit_date"
 }, "Date", -1
 /* HOISTED */
 );
@@ -28280,7 +28209,7 @@ var _hoisted_87 = {
 };
 
 var _hoisted_88 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "truck_number_plate"
+  "for": "edit_truck_number_plate"
 }, "Track Number Plate", -1
 /* HOISTED */
 );
@@ -28294,7 +28223,7 @@ var _hoisted_90 = {
 };
 
 var _hoisted_91 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "region"
+  "for": "edit_region"
 }, "Region", -1
 /* HOISTED */
 );
@@ -28308,7 +28237,7 @@ var _hoisted_93 = {
 };
 
 var _hoisted_94 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "destination"
+  "for": "edit_destination"
 }, "Destination", -1
 /* HOISTED */
 );
@@ -28322,7 +28251,7 @@ var _hoisted_96 = {
 };
 
 var _hoisted_97 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "customer"
+  "for": "edit_customer"
 }, "Customer", -1
 /* HOISTED */
 );
@@ -28336,7 +28265,7 @@ var _hoisted_99 = {
 };
 
 var _hoisted_100 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "track_record_receipt_number"
+  "for": "edit_track_record_receipt_number"
 }, "Track Record Receipt Number", -1
 /* HOISTED */
 );
@@ -28451,7 +28380,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, ["prevent"])),
     disabled: $data.form.processing
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_57, [_hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    type: "text",
+    type: "date",
     "class": "form-control",
     id: "date",
     "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
@@ -28529,9 +28458,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, ["prevent"])),
     disabled: $data.form.processing
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_84, [_hoisted_85, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    type: "text",
+    type: "date",
     "class": "form-control",
-    id: "date",
+    id: "edit_date",
     "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
       return $data.form.date = $event;
     })
@@ -28542,7 +28471,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_87, [_hoisted_88, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "truck_number_plate",
+    id: "edit_truck_number_plate",
     "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
       return $data.form.truck_number_plate = $event;
     }),
@@ -28554,7 +28483,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_90, [_hoisted_91, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "region",
+    id: "edit_region",
     "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
       return $data.form.region = $event;
     }),
@@ -28566,7 +28495,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_93, [_hoisted_94, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "destination",
+    id: "edit_destination",
     "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
       return $data.form.destination = $event;
     }),
@@ -28578,7 +28507,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_96, [_hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "customer",
+    id: "edit_customer",
     "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
       return $data.form.customer = $event;
     }),
@@ -28590,7 +28519,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_99, [_hoisted_100, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "track_record_receipt_number",
+    id: "edit_track_record_receipt_number",
     "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
       return $data.form.track_record_receipt_number = $event;
     }),
@@ -28627,7 +28556,7 @@ var _hoisted_1 = {
   role: "alert"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error!", -1
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("strong", null, "Error! :", -1
 /* HOISTED */
 );
 
@@ -28969,7 +28898,7 @@ var _hoisted_64 = {
 };
 
 var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "number_plate"
+  "for": "edit_number_plate"
 }, "Number Plate", -1
 /* HOISTED */
 );
@@ -28983,7 +28912,7 @@ var _hoisted_67 = {
 };
 
 var _hoisted_68 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "manufacturer"
+  "for": "edit_manufacturer"
 }, "Manufacturer", -1
 /* HOISTED */
 );
@@ -28997,7 +28926,7 @@ var _hoisted_70 = {
 };
 
 var _hoisted_71 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "model"
+  "for": "edit_model"
 }, "Model", -1
 /* HOISTED */
 );
@@ -29011,7 +28940,7 @@ var _hoisted_73 = {
 };
 
 var _hoisted_74 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "color"
+  "for": "edit_color"
 }, "Color", -1
 /* HOISTED */
 );
@@ -29167,7 +29096,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_64, [_hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "number_plate",
+    id: "edit_number_plate",
     "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
       return $data.form.number_plate = $event;
     }),
@@ -29179,7 +29108,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_67, [_hoisted_68, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "manufacturer",
+    id: "edit_manufacturer",
     "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $data.form.manufacturer = $event;
     }),
@@ -29191,7 +29120,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_70, [_hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "model",
+    id: "edit_model",
     "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       return $data.form.model = $event;
     }),
@@ -29203,7 +29132,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_73, [_hoisted_74, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "text",
     "class": "form-control",
-    id: "color",
+    id: "edit_color",
     "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
       return $data.form.color = $event;
     }),

@@ -58,10 +58,10 @@ class PayBillController extends Controller
     {
         Bill::create(
             $request->validate([
-                'expense_type' => 'required|unique:bills|max:25',
-                'truck' => 'required|max:25',
+                'expense_type' => 'required|unique:bills|max:50',
+                'truck' => 'required|max:50',
                 'date' => 'required',
-                'amount' => 'required|max:25',
+                'amount' => 'required|integer',
             ])
         );
         return Redirect::route('bills.index')->with('message', 'Bill Registered Successfully');
@@ -105,10 +105,10 @@ class PayBillController extends Controller
             return Redirect::route('bills.index')->with('error', 'Oops...Bill Does Not exist!', );
         }
         $request->validate([
-            'expense_type' => 'required|max:25',//TO DO check if in Expewnse Table
-            'truck' => 'required|max:25',
+            'expense_type' => 'required|exists:bills',
+            'truck' => 'required|max:50',
             'date' => 'required',
-            'amount' => 'required|max:25',
+            'amount' => 'required|integer',
         ]);
         $bill->update($request->all());
         return Redirect::route('bills.index')->with('message', 'Bill Details Edited Successfully');

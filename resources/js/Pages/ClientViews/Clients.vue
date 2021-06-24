@@ -6,7 +6,7 @@
             </h2>
         </template> -->
     <div v-if="$page.props.flash.error" class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> {{ $page.props.flash.error }}.
+        <strong>Error! :</strong> {{ $page.props.flash.error }}.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -124,22 +124,22 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Enter Number plate">
+                                <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Enter Name">
                                 <div class="text-danger font-italic" v-if="errors.name">{{ errors.name }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="phone_number">phone_number</label>
-                                <input type="text" class="form-control" id="phone_number" v-model="form.phone_number" placeholder="Enter phone_number">
+                                <label for="phone_number">Phone Number</label>
+                                <input type="text" class="form-control" id="phone_number" v-model="form.phone_number" placeholder="Enter Phone Number">
                                 <div class="text-danger font-italic" v-if="errors.phone_number">{{ errors.phone_number }}</div>
                             </div>
                            <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" v-model="form.email" placeholder="Enter Assigned Truck">
+                                <input type="email" class="form-control" id="email" v-model="form.email" placeholder="Enter Email">
                                 <div class="text-danger font-italic" v-if="errors.email">{{ errors.email }}</div>
                             </div>
                             <div class="form-group">
                                 <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address" v-model="form.address" placeholder="Enter address">
+                                <input type="text" class="form-control" id="address" v-model="form.address" placeholder="Enter Address">
                                 <div class="text-danger font-italic" v-if="errors.address">{{ errors.address }}</div>
                             </div>
                         </div>
@@ -180,23 +180,23 @@
                     <form @submit.prevent="editClient(editableClient.id)" :disabled="form.processing">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Enter Number plate">
+                                <label for="edit_name">Name</label>
+                                <input type="text" class="form-control" id="edit_name" v-model="form.name" placeholder="Enter Name">
                                 <div class="text-danger font-italic" v-if="errors.name">{{ errors.name }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="phone_number">phone_number</label>
-                                <input type="text" class="form-control" id="phone_number" v-model="form.phone_number" placeholder="Enter phone_number">
+                                <label for="edit_phone_number">Phone Number</label>
+                                <input type="text" class="form-control" id="edit_phone_number" v-model="form.phone_number" placeholder="Enter Phone Number">
                                 <div class="text-danger font-italic" v-if="errors.phone_number">{{ errors.phone_number }}</div>
                             </div>
                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" v-model="form.email" placeholder="Enter Assigned Truck">
+                                <label for="edit_email">Email</label>
+                                <input type="email" class="form-control" id="edit_email" v-model="form.email" placeholder="Enter Email">
                                 <div class="text-danger font-italic" v-if="errors.email">{{ errors.email }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address" v-model="form.address" placeholder="Enter address">
+                                <label for="edit_address">Address</label>
+                                <input type="text" class="form-control" id="edit_address" v-model="form.address" placeholder="Enter Address">
                                 <div class="text-danger font-italic" v-if="errors.address">{{ errors.address }}</div>
                             </div>
                         </div>
@@ -250,23 +250,13 @@
         },
         methods: {
             deleteClient(id){
-                this.$inertia.delete('/clients/'+id)
-                .then(() => this.successToast("Client Deleted Successfully!"))
-                .catch(() => this.errorToast());
+                this.$inertia.delete('/clients/'+id);
             },
             editClient(id){
-                this.$inertia.post('/clients/'+id, this.form)
-                .then(() => this.successToast("Client Details Edited Successfully!"))
-                .catch(() => this.errorToast());
-                $('#edit-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/clients/'+id, this.form);
             },
             addClient(){
-                this.$inertia.post('/clients', this.form)
-                .then(() => this.successToast("Client Registered Successfully!"))
-                .catch(() => this.errorToast());
-                $('#create-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/clients', this.form);
             },
             fillEditForm(client){
                 this.form.name = client.name;
@@ -344,6 +334,17 @@
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
             });
+        },
+        updated(){
+            if(this.$page.props.flash.message){
+                this.successToast(this.$page.props.flash.message);
+                $('#create-model').modal('hide');
+                $('#edit-model').modal('hide');
+                this.form.reset();
+                this.$page.props.flash.message = null;
+            }else if(this.$page.props.flash.error){
+                this.errorToast()
+            }  
         },
         watch: {
             params: {

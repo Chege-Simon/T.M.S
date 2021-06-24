@@ -57,8 +57,8 @@ class ExpenseController extends Controller
     {
         Expense::create(
             $request->validate([
-                'expense_type' => 'required|unique:expenses|max:25',
-                'account' => 'required|max:25',
+                'expense_type' => 'required|exists:bills',
+                'account' => 'required|max:50',
             ])
         );
         return Redirect::route('expenses.index')->with('message', 'Expense Registered Successfully');
@@ -102,8 +102,8 @@ class ExpenseController extends Controller
             return Redirect::route('expenses.index')->with('error', 'Oops...Expense Does Not exist!', );
         }
         $request->validate([
-            'expense_type' => 'required|max:25',//TO DO check if in Expewnse Table
-            'account' => 'required|max:25',
+            'expense_type' => 'required|exists:bills',
+            'account' => 'required|max:50',
         ]);
         $expense->update($request->all());
         return Redirect::route('expenses.index')->with('message', 'Expense Details Edited Successfully');

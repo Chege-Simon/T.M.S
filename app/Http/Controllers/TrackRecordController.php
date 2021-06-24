@@ -61,10 +61,10 @@ class TrackRecordController extends Controller
     {
         TrackRecord::create(
             $request->validate([
-                'truck_number_plate' => 'required|max:25',//TO DO check if in Track Table
-                'region' => 'required|max:25',
+                'truck_number_plate' => 'required|exists:trucks,number_plate',
+                'region' => 'required|exists:regions',
                 'destination' => 'required|max:25',
-                'customer' => 'required|max:25',
+                'customer' => 'required|exists:customers, name',
                 'track_record_receipt_number' => 'required|max:25',
                 'date' => 'required',
 
@@ -111,10 +111,10 @@ class TrackRecordController extends Controller
             return Redirect::route('track-record.index')->with('error', 'Oops...Track Record Does Not exist!', );
         }
         $request->validate([
-            'truck_number_plate' => 'required|max:25',//TO DO check if in Track Table
-            'region' => 'required|max:25',
+            'truck_number_plate' => 'required|exists:trucks,number_plate',
+            'region' => 'required|exists:regions',
             'destination' => 'required|max:25',
-            'customer' => 'required|max:25',
+            'customer' => 'required|exists:customers, name',
             'track_record_receipt_number' => 'required|max:25',
             'date' => 'required',
         ]);

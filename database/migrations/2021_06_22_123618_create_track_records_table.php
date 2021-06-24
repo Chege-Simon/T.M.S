@@ -15,7 +15,7 @@ class CreateTrackRecordsTable extends Migration
     {
         Schema::create('track_records', function (Blueprint $table) {
             $table->id();
-            $table->String('date');
+            $table->date('date');
             $table->String('truck_number_plate');
             $table->String('region');
             $table->String('destination');

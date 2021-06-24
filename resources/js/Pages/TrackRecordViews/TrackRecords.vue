@@ -6,7 +6,7 @@
             </h2>
         </template> -->
     <div v-if="$page.props.flash.error" class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> {{ $page.props.flash.error }}.
+        <strong>Error! :</strong> {{ $page.props.flash.error }}.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -149,7 +149,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="date">Date</label>
-                                <input type="text" class="form-control" id="date" v-model="form.date">
+                                <input type="date" class="form-control" id="date" v-model="form.date">
                                 <div class="text-danger font-italic" v-if="errors.date">{{ errors.date }}</div>
                             </div>
                             <div class="form-group">
@@ -215,33 +215,33 @@
                     <form @submit.prevent="editTrackRecord(editableTrackRecord.id)" :disabled="form.processing">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="date">Date</label>
-                                <input type="text" class="form-control" id="date" v-model="form.date">
+                                <label for="edit_date">Date</label>
+                                <input type="date" class="form-control" id="edit_date" v-model="form.date">
                                 <div class="text-danger font-italic" v-if="errors.date">{{ errors.date }}</div>
                             </div>
                            <div class="form-group">
-                                <label for="truck_number_plate">Track Number Plate</label>
-                                <input type="text" class="form-control" id="truck_number_plate" v-model="form.truck_number_plate" placeholder="Enter Number plate">
+                                <label for="edit_truck_number_plate">Track Number Plate</label>
+                                <input type="text" class="form-control" id="edit_truck_number_plate" v-model="form.truck_number_plate" placeholder="Enter Number plate">
                                 <div class="text-danger font-italic" v-if="errors.truck_number_plate">{{ errors.truck_number_plate }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="region">Region</label>
-                                <input type="text" class="form-control" id="region" v-model="form.region" placeholder="Enter Region">
+                                <label for="edit_region">Region</label>
+                                <input type="text" class="form-control" id="edit_region" v-model="form.region" placeholder="Enter Region">
                                 <div class="text-danger font-italic" v-if="errors.region">{{ errors.region }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="destination">Destination</label>
-                                <input type="text" class="form-control" id="destination" v-model="form.destination" placeholder="Enter Destination">
+                                <label for="edit_destination">Destination</label>
+                                <input type="text" class="form-control" id="edit_destination" v-model="form.destination" placeholder="Enter Destination">
                                 <div class="text-danger font-italic" v-if="errors.destination">{{ errors.destination }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="customer">Customer</label>
-                                <input type="text" class="form-control" id="customer" v-model="form.customer" placeholder="Enter Customer">
+                                <label for="edit_customer">Customer</label>
+                                <input type="text" class="form-control" id="edit_customer" v-model="form.customer" placeholder="Enter Customer">
                                 <div class="text-danger font-italic" v-if="errors.customer">{{ errors.customer }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="track_record_receipt_number">Track Record Receipt Number</label>
-                                <input type="text" class="form-control" id="track_record_receipt_number" v-model="form.track_record_receipt_number" placeholder="Enter Track Record Receipt Number">
+                                <label for="edit_track_record_receipt_number">Track Record Receipt Number</label>
+                                <input type="text" class="form-control" id="edit_track_record_receipt_number" v-model="form.track_record_receipt_number" placeholder="Enter Track Record Receipt Number">
                                 <div class="text-danger font-italic" v-if="errors.track_record_receipt_number">{{ errors.track_record_receipt_number }}</div>
                             </div>
                         </div>
@@ -297,23 +297,13 @@
         },
         methods: {
             deleteTrackRecord(id){
-                this.$inertia.delete('/track-record/'+id)
-                .then(() => this.successToast("Track Record  Deleted Successfully!"))
-                .catch(() => this.errorToast());
+                this.$inertia.delete('/track-record/'+id);
             },
             editTrackRecord(id){
-                this.$inertia.post('track-record/'+id, this.form)
-                .then(() => this.successToast("Track Record  Details Edited Successfully!"))
-                .catch(() => this.errorToast());
-                $('#edit-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('track-record/'+id, this.form);
             },
             addTrackRecord(){
-                this.$inertia.post('/track-record', this.form)
-                .then(() => this.successToast("Track Record  Registered Successfully!"))
-                .catch(() => this.errorToast());
-                $('#create-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/track-record', this.form);
             },
             fillEditForm(track_record){
                 this.form.date = track_record.date;
@@ -393,6 +383,17 @@
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
             });
+        },
+        updated(){
+            if(this.$page.props.flash.message){
+                this.successToast(this.$page.props.flash.message);
+                $('#create-model').modal('hide');
+                $('#edit-model').modal('hide');
+                this.form.reset();
+                this.$page.props.flash.message = null;
+            }else if(this.$page.props.flash.error){
+                this.errorToast()
+            }  
         },
         watch: {
             params: {

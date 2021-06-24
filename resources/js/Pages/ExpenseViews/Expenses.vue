@@ -6,7 +6,7 @@
             </h2>
         </template> -->
     <div v-if="$page.props.flash.error" class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> {{ $page.props.flash.error }}.
+        <strong>Error! :</strong> {{ $page.props.flash.error }}.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -102,7 +102,7 @@
                             </div>
                            <div class="form-group">
                                 <label for="account">Account</label>
-                                <input type="account" class="form-control" id="account" v-model="form.account" placeholder="Enter Assigned Truck">
+                                <input type="text" class="form-control" id="account" v-model="form.account" placeholder="Enter Assigned Truck">
                                 <div class="text-danger font-italic" v-if="errors.account">{{ errors.account }}</div>
                             </div>
                         </div>
@@ -143,13 +143,13 @@
                     <form @submit.prevent="editExpense(editableExpense.id)" :disabled="form.processing">
                          <div class="card-body">
                             <div class="form-group">
-                                <label for="expense_type">Expense</label>
-                                <input type="text" class="form-control" id="expense_type" v-model="form.expense_type" placeholder="Enter Number plate">
+                                <label for="edit_expense_type">Expense</label>
+                                <input type="text" class="form-control" id="edit_expense_type" v-model="form.expense_type" placeholder="Enter Number plate">
                                 <div class="text-danger font-italic" v-if="errors.expense_type">{{ errors.expense_type }}</div>
                             </div>
                            <div class="form-group">
-                                <label for="account">Account</label>
-                                <input type="account" class="form-control" id="account" v-model="form.account" placeholder="Enter Assigned Truck">
+                                <label for="edit_account">Account</label>
+                                <input type="text" class="form-control" id="edit_account" v-model="form.account" placeholder="Enter Assigned Truck">
                                 <div class="text-danger font-italic" v-if="errors.account">{{ errors.account }}</div>
                             </div>
                         </div>
@@ -201,23 +201,13 @@
         },
         methods: {
             deleteExpense(id){
-                this.$inertia.delete('/expenses/'+id)
-                .then(() => this.successToast("Expense Deleted Successfully!"))
-                .catch(() => this.errorToast());
+                this.$inertia.delete('/expenses/'+id);
             },
             editExpense(id){
-                this.$inertia.post('/expenses/'+id, this.form)
-                .then(() => this.successToast("Expense Details Edited Successfully!"))
-                .catch(() => this.errorToast());
-                $('#edit-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/expenses/'+id, this.form);
             },
             addExpense(){
-                this.$inertia.post('/expenses', this.form)
-                .then(() => this.successToast("Expense Registered Successfully!"))
-                .catch(() => this.errorToast());
-                $('#create-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/expenses', this.form);
             },
             fillEditForm(expense){
                 this.form.expense_type = expense.expense_type;
@@ -293,6 +283,17 @@
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
             });
+        },
+        updated(){
+            if(this.$page.props.flash.message){
+                this.successToast(this.$page.props.flash.message);
+                $('#create-model').modal('hide');
+                $('#edit-model').modal('hide');
+                this.form.reset();
+                this.$page.props.flash.message = null;
+            }else if(this.$page.props.flash.error){
+                this.errorToast()
+            }  
         },
         watch: {
             params: {

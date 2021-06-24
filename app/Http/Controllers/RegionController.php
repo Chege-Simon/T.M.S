@@ -59,9 +59,9 @@ class RegionController extends Controller
     {
         Region::create(
             $request->validate([
-                'name' => 'required|unique:regions|max:25',
-                'truck_model' => 'required|max:25',
-                'pricing' => 'required|max:25',
+                'name' => 'required|unique:regions',
+                'truck_model' => 'required|max:50',
+                'pricing' => 'required|integer',
             ])
         );
         return Redirect::route('regions.index')->with('message', 'Region Registered Successfully');
@@ -105,9 +105,9 @@ class RegionController extends Controller
             return Redirect::route('regions.index')->with('error', 'Oops...Region Does Not exist!', );
         }
         $request->validate([
-            'name' => 'required|max:25',//to do check if in regions table
-            'truck_model' => 'required|max:25',
-            'pricing' => 'required|max:25',
+            'name' => 'required|exists:regions',
+            'truck_model' => 'required|max:50',
+            'pricing' => 'required|integer',
         ]);
         $region->update($request->all());
         return Redirect::route('regions.index')->with('message', 'Region Details Edited Successfully');

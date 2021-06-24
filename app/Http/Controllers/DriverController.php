@@ -59,10 +59,10 @@ class DriverController extends Controller
     {
         Driver::create(
             $request->validate([
-                'name' => 'required|unique:drivers|max:25',
-                'phone_number' => 'required|max:25',
-                'assigned_truck' => 'required|max:25',
-                'allowances' => 'max:25',
+                'name' => 'required|unique:drivers',
+                'phone_number' => 'required|max:50',
+                'assigned_truck' => 'required|exists:trucks,number_plate',
+                'allowances' => 'max:50',
             ])
         );
         return Redirect::route('drivers.index')->with('message', 'Driver Registered Successfully');
@@ -106,10 +106,10 @@ class DriverController extends Controller
             return Redirect::route('drivers.index')->with('error', 'Oops...Driver Does Not exist!', );
         }
         $request->validate([
-            'name' => 'required|max:25',
-            'phone_number' => 'required|max:25',
-            'assigned_truck' => 'required|max:25',
-            'allowances' => 'max:25',
+            'name' => 'required|exists:drivers',
+            'phone_number' => 'required|max:50',
+            'assigned_truck' => 'required|exists:trucks,number_plate',
+            'allowances' => 'max:50',
         ]);
         $driver->update($request->all());
         return Redirect::route('drivers.index')->with('message', 'Driver Details Edited Successfully');

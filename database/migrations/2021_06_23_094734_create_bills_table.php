@@ -17,7 +17,7 @@ class CreateBillsTable extends Migration
             $table->id();
             $table->String('expense_type');
             $table->String('truck');
-            $table->String('amount');
+            $table->integer('amount');
             $table->String('date');
             $table->timestamps();
         });

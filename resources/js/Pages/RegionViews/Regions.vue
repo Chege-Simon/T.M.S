@@ -6,7 +6,7 @@
             </h2>
         </template> -->
     <div v-if="$page.props.flash.error" class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> {{ $page.props.flash.error }}.
+        <strong>Error! :</strong> {{ $page.props.flash.error }}.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -110,17 +110,17 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Enter Number plate">
+                                <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Enter Name">
                                 <div class="text-danger font-italic" v-if="errors.name">{{ errors.name }}</div>
                             </div>
                             <div class="form-group">
                                 <label for="truck_model">Truck Model</label>
-                                <input type="text" class="form-control" id="truck_model" v-model="form.truck_model" placeholder="Enter truck_model">
+                                <input type="text" class="form-control" id="truck_model" v-model="form.truck_model" placeholder="Enter Truck Model">
                                 <div class="text-danger font-italic" v-if="errors.truck_model">{{ errors.truck_model }}</div>
                             </div>
                            <div class="form-group">
                                 <label for="pricing">Pricing</label>
-                                <input type="pricing" class="form-control" id="pricing" v-model="form.pricing" placeholder="Enter Assigned Truck">
+                                <input type="number" class="form-control" id="pricing" v-model="form.pricing" placeholder="Enter Pricing">
                                 <div class="text-danger font-italic" v-if="errors.pricing">{{ errors.pricing }}</div>
                             </div>
                         </div>
@@ -161,18 +161,18 @@
                     <form @submit.prevent="editRegion(editableRegion.id)" :disabled="form.processing">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Enter Number plate">
+                                <label for="edit_name">Name</label>
+                                <input type="text" class="form-control" id="edit_name" v-model="form.name" placeholder="Enter Name">
                                 <div class="text-danger font-italic" v-if="errors.name">{{ errors.name }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="truck_model">Truck Model</label>
-                                <input type="text" class="form-control" id="truck_model" v-model="form.truck_model" placeholder="Enter truck_model">
+                                <label for="edit_truck_model">Truck Model</label>
+                                <input type="text" class="form-control" id="edit_truck_model" v-model="form.truck_model" placeholder="Enter Truck Model">
                                 <div class="text-danger font-italic" v-if="errors.truck_model">{{ errors.truck_model }}</div>
                             </div>
                            <div class="form-group">
-                                <label for="pricing">Pricing</label>
-                                <input type="pricing" class="form-control" id="pricing" v-model="form.pricing" placeholder="Enter Assigned Truck">
+                                <label for="edit_pricing">Pricing</label>
+                                <input type="number" class="form-control" id="edit_pricing" v-model="form.pricing" placeholder="Enter Pricing">
                                 <div class="text-danger font-italic" v-if="errors.pricing">{{ errors.pricing }}</div>
                             </div>
                         </div>
@@ -225,23 +225,13 @@
         },
         methods: {
             deleteRegion(id){
-                this.$inertia.delete('/regions/'+id)
-                .then(() => this.successToast("Region Deleted Successfully!"))
-                .catch(() => this.errorToast());
+                this.$inertia.delete('/regions/'+id);
             },
             editRegion(id){
-                this.$inertia.post('/regions/'+id, this.form)
-                .then(() => this.successToast("Region Details Edited Successfully!"))
-                .catch(() => this.errorToast());
-                $('#edit-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/regions/'+id, this.form);
             },
             addRegion(){
-                this.$inertia.post('/regions', this.form)
-                .then(() => this.successToast("Region Registered Successfully!"))
-                .catch(() => this.errorToast());
-                $('#create-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/regions', this.form);
             },
             fillEditForm(region){
                 this.form.name = region.name;
@@ -318,6 +308,17 @@
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
             });
+        },
+        updated(){
+            if(this.$page.props.flash.message){
+                this.successToast(this.$page.props.flash.message);
+                $('#create-model').modal('hide');
+                $('#edit-model').modal('hide');
+                this.form.reset();
+                this.$page.props.flash.message = null;
+            }else if(this.$page.props.flash.error){
+                this.errorToast()
+            }  
         },
         watch: {
             params: {

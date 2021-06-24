@@ -59,10 +59,10 @@ class ClientController extends Controller
     {
         Client::create(
             $request->validate([
-                'name' => 'required|unique:clients|max:25',
-                'phone_number' => 'required|max:25',
-                'email' => 'required|email|max:25',
-                'address' => 'required|max:25',
+                'name' => 'required|unique:clients|max:50',
+                'phone_number' => 'required|max:50',
+                'email' => 'required|email|max:50',
+                'address' => 'required|max:50',
             ])
         );
         return Redirect::route('clients.index')->with('message', 'Client Registered Successfully');
@@ -106,10 +106,10 @@ class ClientController extends Controller
             return Redirect::route('clients.index')->with('error', 'Oops...Client Does Not exist!', );
         }
         $request->validate([
-            'name' => 'required|max:25',//TO DO check if in client table
-            'phone_number' => 'required|max:25',
-            'email' => 'required|email|max:25',
-            'address' => 'required|max:25',
+            'name' => 'required|exists:clients',
+            'phone_number' => 'required|max:50',
+            'email' => 'required|email',
+            'address' => 'required|max:50',
         ]);
         $client->update($request->all());
         return Redirect::route('clients.index')->with('message', 'Client Details Edited Successfully');

@@ -6,7 +6,7 @@
             </h2>
         </template> -->
     <div v-if="$page.props.flash.error" class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> {{ $page.props.flash.error }}.
+        <strong>Error! :</strong> {{ $page.props.flash.error }}.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -124,12 +124,12 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Enter Number plate">
+                                <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Enter Name">
                                 <div class="text-danger font-italic" v-if="errors.name">{{ errors.name }}</div>
                             </div>
                             <div class="form-group">
                                 <label for="phone_number">phone_number</label>
-                                <input type="text" class="form-control" id="phone_number" v-model="form.phone_number" placeholder="Enter phone_number">
+                                <input type="text" class="form-control" id="phone_number" v-model="form.phone_number" placeholder="Enter Phone Number">
                                 <div class="text-danger font-italic" v-if="errors.phone_number">{{ errors.phone_number }}</div>
                             </div>
                            <div class="form-group">
@@ -139,7 +139,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="allowances">Allowances</label>
-                                <input type="text" class="form-control" id="allowances" v-model="form.allowances" placeholder="Enter Allowances">
+                                <input type="number" class="form-control" id="allowances" v-model="form.allowances" placeholder="Enter Allowances">
                                 <div class="text-danger font-italic" v-if="errors.allowances">{{ errors.allowances }}</div>
                             </div>
                         </div>
@@ -180,23 +180,23 @@
                     <form @submit.prevent="editDriver(editableDriver.id)" :disabled="form.processing">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Enter Number plate">
+                                <label for="edit_name">Name</label>
+                                <input type="text" class="form-control" id="edit_name" v-model="form.name" placeholder="Enter Name">
                                 <div class="text-danger font-italic" v-if="errors.name">{{ errors.name }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="phone_number">phone_number</label>
-                                <input type="text" class="form-control" id="phone_number" v-model="form.phone_number" placeholder="Enter phone_number">
+                                <label for="edit_phone_number">phone_number</label>
+                                <input type="text" class="form-control" id="edit_phone_number" v-model="form.phone_number" placeholder="Enter Phone number">
                                 <div class="text-danger font-italic" v-if="errors.phone_number">{{ errors.phone_number }}</div>
                             </div>
                            <div class="form-group">
-                                <label for="assigned_truck">Assigned Truck</label>
-                                <input type="text" class="form-control" id="assigned_truck" v-model="form.assigned_truck" placeholder="Enter Assigned Truck">
+                                <label for="edit_assigned_truck">Assigned Truck</label>
+                                <input type="text" class="form-control" id="edit_assigned_truck" v-model="form.assigned_truck" placeholder="Enter Assigned Truck">
                                 <div class="text-danger font-italic" v-if="errors.assigned_truck">{{ errors.assigned_truck }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="allowances">Allowances</label>
-                                <input type="text" class="form-control" id="allowances" v-model="form.allowances" placeholder="Enter Allowances">
+                                <label for="edit_allowances">Allowances</label>
+                                <input type="number" class="form-control" id="edit_allowances" v-model="form.allowances" placeholder="Enter Allowances">
                                 <div class="text-danger font-italic" v-if="errors.allowances">{{ errors.allowances }}</div>
                             </div>
                         </div>
@@ -250,23 +250,13 @@
         },
         methods: {
             deleteDriver(id){
-                this.$inertia.delete('/drivers/'+id)
-                .then(() => this.successToast("Driver Deleted Successfully!"))
-                .catch(() => this.errorToast());
+                this.$inertia.delete('/drivers/'+id);
             },
             editDriver(id){
-                this.$inertia.post('/drivers/'+id, this.form)
-                .then(() => this.successToast("Driver Details Edited Successfully!"))
-                .catch(() => this.errorToast());
-                $('#edit-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/drivers/'+id, this.form);
             },
             addDriver(){
-                this.$inertia.post('/drivers', this.form)
-                .then(() => this.successToast("Driver Registered Successfully!"))
-                .catch(() => this.errorToast());
-                $('#create-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/drivers', this.form);
             },
             fillEditForm(driver){
                 this.form.name = driver.name;
@@ -344,6 +334,17 @@
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
             });
+        },
+        updated(){
+            if(this.$page.props.flash.message){
+                this.successToast(this.$page.props.flash.message);
+                $('#create-model').modal('hide');
+                $('#edit-model').modal('hide');
+                this.form.reset();
+                this.$page.props.flash.message = null;
+            }else if(this.$page.props.flash.error){
+                this.errorToast()
+            }  
         },
         watch: {
             params: {

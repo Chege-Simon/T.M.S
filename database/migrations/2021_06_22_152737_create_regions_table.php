@@ -17,7 +17,7 @@ class CreateRegionsTable extends Migration
             $table->id();
             $table->String('name');
             $table->String('truck_model');
-            $table->String('pricing');
+            $table->integer('pricing');
             $table->timestamps();
         });
     }

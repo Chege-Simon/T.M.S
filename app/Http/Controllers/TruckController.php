@@ -58,8 +58,6 @@ class TruckController extends Controller
      */
     public function store(Request $request)
     {
-        // $validatedData = 
-
         Truck::create(
             $request->validate([
                 'number_plate' => 'required|unique:trucks|max:25',
@@ -109,7 +107,7 @@ class TruckController extends Controller
             return Redirect::route('trucks.index')->with('error', 'Oops...Truck Does Not exist!', );
         }
         $request->validate([
-            'number_plate' => 'required|max:25',//TO DO check if in Track Table
+            'number_plate' => 'required|exists:trucks',
             'manufacturer' => 'required|max:25',
             'model' => 'required|max:25',
             'color' => 'required|max:25',

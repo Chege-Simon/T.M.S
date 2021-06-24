@@ -6,7 +6,7 @@
             </h2>
         </template> -->
     <div v-if="$page.props.flash.error" class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> {{ $page.props.flash.error }}.
+        <strong>Error! :</strong> {{ $page.props.flash.error }}.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -14,7 +14,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header row">
-                <h3 class="card-title col-md-2">All Payed Bills</h3>
+                <h3 class="card-title col-md-2">All Paid Bills</h3>
                 <div class="col-md-5">
                     <input type="search" v-model="params.search" class="form-control form-control-sm" placeholder="Search...">
                 </div>
@@ -123,12 +123,12 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="expense_type">Expense</label>
-                                <input type="text" class="form-control" id="expense_type" v-model="form.expense_type" placeholder="Enter Number plate">
+                                <input type="text" class="form-control" id="expense_type" v-model="form.expense_type" placeholder="Enter Expense">
                                 <div class="text-danger font-italic" v-if="errors.expense_type">{{ errors.expense_type }}</div>
                             </div>
                             <div class="form-group">
                                 <label for="truck">Truck</label>
-                                <input type="text" class="form-control" id="truck" v-model="form.truck" placeholder="Enter truck">
+                                <input type="text" class="form-control" id="truck" v-model="form.truck" placeholder="Enter Truck">
                                 <div class="text-danger font-italic" v-if="errors.truck">{{ errors.truck }}</div>
                             </div>
                             <div class="form-group">
@@ -138,7 +138,7 @@
                             </div>
                            <div class="form-group">
                                 <label for="amount">Amount</label>
-                                <input type="amount" class="form-control" id="amount" v-model="form.amount" placeholder="Enter Assigned Truck">
+                                <input type="number" class="form-control" id="amount" v-model="form.amount" placeholder="Enter Amount">
                                 <div class="text-danger font-italic" v-if="errors.amount">{{ errors.amount }}</div>
                             </div>
                         </div>
@@ -179,23 +179,23 @@
                     <form @submit.prevent="editBill(editableBill.id)" :disabled="form.processing">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="expense_type">Expense</label>
-                                <input type="text" class="form-control" id="expense_type" v-model="form.expense_type" placeholder="Enter Number plate">
+                                <label for="edit_expense_type">Expense</label>
+                                <input type="text" class="form-control" id="edit_expense_type" v-model="form.expense_type" placeholder="Enter Expense">
                                 <div class="text-danger font-italic" v-if="errors.expense_type">{{ errors.expense_type }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="truck">Truck</label>
-                                <input type="text" class="form-control" id="truck" v-model="form.truck" placeholder="Enter truck">
+                                <label for="edit_truck">Truck</label>
+                                <input type="text" class="form-control" id="edit_truck" v-model="form.truck" placeholder="Enter Truck">
                                 <div class="text-danger font-italic" v-if="errors.truck">{{ errors.truck }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="date">Date</label>
+                                <label for="edit_date">Date</label>
                                 <input type="date" class="form-control" id="date" v-model="form.date" placeholder="Enter date">
                                 <div class="text-danger font-italic" v-if="errors.date">{{ errors.date }}</div>
                             </div>
                            <div class="form-group">
-                                <label for="amount">Amount</label>
-                                <input type="amount" class="form-control" id="amount" v-model="form.amount" placeholder="Enter Assigned Truck">
+                                <label for="edit_amount">Amount</label>
+                                <input type="number" class="form-control" id="edit_amount" v-model="form.amount" placeholder="Enter Amount">
                                 <div class="text-danger font-italic" v-if="errors.amount">{{ errors.amount }}</div>
                             </div>
                         </div>
@@ -248,23 +248,13 @@
         },
         methods: {
             deleteBill(id){
-                this.$inertia.delete('/bills/'+id)
-                .then(() => this.successToast("Bill Deleted Successfully!"))
-                .catch(() => this.errorToast());
+                this.$inertia.delete('/bills/'+id);
             },
             editBill(id){
-                this.$inertia.post('/bills/'+id, this.form)
-                .then(() => this.successToast("Bill Details Edited Successfully!"))
-                .catch(() => this.errorToast());
-                $('#edit-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/bills/'+id, this.form);
             },
             addBill(){
-                this.$inertia.post('/bills', this.form)
-                .then(() => this.successToast("Bill Registered Successfully!"))
-                .catch(() => this.errorToast());
-                $('#create-model').modal('hide');
-                this.form.reset();
+                this.$inertia.post('/bills', this.form);
             },
             fillEditForm(bill){
                 this.form.date = bill.date;
@@ -342,6 +332,17 @@
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
             });
+        },
+        updated(){
+            if(this.$page.props.flash.message){
+                this.successToast(this.$page.props.flash.message);
+                $('#create-model').modal('hide');
+                $('#edit-model').modal('hide');
+                this.form.reset();
+                this.$page.props.flash.message = null;
+            }else if(this.$page.props.flash.error){
+                this.errorToast()
+            }  
         },
         watch: {
             params: {
