@@ -5,6 +5,7 @@
                 Trucks
             </h2>
         </template> -->
+    <div>
     <div v-if="$page.props.flash.error" class="alert alert-warning alert-dismissible fade show" role="alert">
         <strong>Error! :</strong> {{ $page.props.flash.error }}.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -262,6 +263,7 @@
       </div>
       <!-- /.modal -->
     <!-- </app-layout> -->
+    </div>
 </template>
 
 <script>
