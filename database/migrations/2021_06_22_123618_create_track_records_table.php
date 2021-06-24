@@ -16,10 +16,10 @@ class CreateTrackRecordsTable extends Migration
         Schema::create('track_records', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->String('truck_number_plate');
-            $table->String('region');
+            $table->integer('truck_id')->unsigned()->index();
+            $table->integer('region_id')->unsigned()->index();
             $table->String('destination');
-            $table->String('customer');
+            $table->integer('client_id')->unsigned()->index();
             $table->String('track_record_receipt_number');
             $table->timestamps();
         });

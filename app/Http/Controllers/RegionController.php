@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Region;
+use App\Models\Client;
 use Illuminate\Support\Facades\DB;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +18,7 @@ class RegionController extends Controller
      */
     public function index()
     {
-        
+        $clients = Client::all();   
         request()->validate([
             'direction' => ['in:asc,desc'],
             'field' => ['in:name,truck_model,pricing']
@@ -35,7 +36,8 @@ class RegionController extends Controller
         }
         // dd($query);
         return Inertia::render('RegionViews/Regions', [
-            'regions' => $query->paginate(4)->withQueryString()
+            'regions' => $query->paginate(4)->withQueryString(),
+            'clients' => $clients
         ]);
     }
 
@@ -62,6 +64,7 @@ class RegionController extends Controller
                 'name' => 'required|unique:regions',
                 'truck_model' => 'required|max:50',
                 'pricing' => 'required|integer',
+                'client_id' => 'required|exists:clients,id'
             ])
         );
         return Redirect::route('regions.index')->with('message', 'Region Registered Successfully');

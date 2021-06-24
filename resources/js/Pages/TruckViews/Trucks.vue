@@ -66,6 +66,7 @@
                             </span>
                         </th>
                         <th>Color</th>
+                        <th class="text-center">Has Driver(Yes/No)</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -75,6 +76,10 @@
                         <td>{{ truck.manufacturer }}</td>
                         <td>{{ truck.model }}</td>
                         <td>{{ truck.color }}</td>
+                        <td class="text-center">
+                            <span v-if="truck.driver.id"><i class="fa fa-check" aria-hidden="true"></i></span>
+                            <span v-else-if="!truck.driver.id"><i class="fa fa-times" aria-hidden="true"></i></span>
+                        </td>
                         <td class="d-flex justify-content-center">
                             <span class="text-primary">
                                 <i class="fa fa-wrench fa-fw mx-1" @click="editModal(truck)" data-toggle="tooltip" data-placement="top" title="Edit"></i>

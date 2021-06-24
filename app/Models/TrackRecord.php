@@ -14,10 +14,21 @@ class TrackRecord extends Model
      * @var array
      */
     protected $fillable = [
-        'truck_number_plate',
-        'region',
+        'truck_id',
+        'region_id',
         'destination',
-        'customer',
+        'client_id',
         'track_record_receipt_number',
+        'date',
     ];
+
+    public function truck(){
+        return $this->belongsTo(Truck::class);
+    }
+    public function region(){
+        return $this->belongsTo(Region::class);
+    }
+    public function client(){
+        return $this->belongsTo(Client::class);
+    }
 }

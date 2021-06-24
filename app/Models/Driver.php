@@ -17,7 +17,10 @@ class Driver extends Model
     protected $fillable = [
         'name',
         'phone_number',
-        'assigned_truck',
+        'truck_id',
         'allowances',
     ];
+    public function truck(){
+        return $this->belongsTo(Truck::class);
+    }
 }

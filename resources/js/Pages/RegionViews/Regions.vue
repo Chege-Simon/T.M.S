@@ -124,6 +124,13 @@
                                 <input type="number" class="form-control" id="pricing" v-model="form.pricing" placeholder="Enter Pricing">
                                 <div class="text-danger font-italic" v-if="errors.pricing">{{ errors.pricing }}</div>
                             </div>
+                            <div class="form-group">
+                                <label for="client_id">Client</label>
+                                <select class="form-control" id="client_id" v-model="form.client_id">
+                                    <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }}</option>
+                                </select>
+                                <div class="text-danger font-italic" v-if="errors.client_id">{{ errors.client_id }}</div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
 
@@ -176,8 +183,16 @@
                                 <input type="number" class="form-control" id="edit_pricing" v-model="form.pricing" placeholder="Enter Pricing">
                                 <div class="text-danger font-italic" v-if="errors.pricing">{{ errors.pricing }}</div>
                             </div>
+                            <div class="form-group">
+                                <label for="edit_client_id">Client</label>
+                                <select class="form-control" id="edit_client_id" v-model="form.client_id">
+                                    <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }}</option>
+                                </select>
+                                <div class="text-danger font-italic" v-if="errors.client_id">{{ errors.client_id }}</div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
+
 
                         <div class="card-footer form-group row">
                             <div class="col-sm-10 text-right">
@@ -208,6 +223,7 @@
         },layout: AppLayout,
         props:{
             regions: Object,
+            clients: Object,
             errors:Object,
         },
         data() {
@@ -221,6 +237,7 @@
                     name: null,
                     truck_model: null,
                     pricing: null,
+                    client_id: null,
                 }),
                 editableRegion: null,
             }
@@ -239,6 +256,7 @@
                 this.form.name = region.name;
                 this.form.truck_model = region.truck_model;
                 this.form.pricing = region.pricing;
+                this.form.client_id = region.client_id;
             },
             // formClear(){
             //       for(const key in this.form){

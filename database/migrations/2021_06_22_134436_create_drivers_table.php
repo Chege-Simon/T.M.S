@@ -15,9 +15,9 @@ class CreateDriversTable extends Migration
     {
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
-            $table->String('name');
+            $table->String('name')->unique();
             $table->String('phone_number');
-            $table->String('assigned_truck');
+            $table->integer('truck_id')->unsigned()->index();
             $table->String('allowances')->nullable();
             $table->timestamps();
         });

@@ -18,5 +18,11 @@ class Region extends Model
        'name',
        'truck_model',
        'pricing',
+       'client_id'
    ];
+
+   public function client()
+   {
+       return $this->belongsTo(Client::class);
+   }
 }

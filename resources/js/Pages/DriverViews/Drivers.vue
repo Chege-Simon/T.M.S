@@ -85,8 +85,8 @@
                     <tr v-for="driver in drivers.data" :key="driver.id" >
                         <td>{{ driver.name }}</td>
                         <td>{{ driver.phone_number }}</td>
-                        <td>{{ driver.assigned_truck }}</td>
-                        <td>{{ driver.allowances }}</td>
+                        <td>{{ driver.truck.number_plate }}</td>
+                        <td>Ksh {{ driver.allowances }}</td>
                         <td class="d-flex justify-content-center">
                             <span class="text-primary">
                                 <i class="fa fa-wrench fa-fw mx-1" @click="editModal(driver)" data-toggle="tooltip" data-placement="top" title="Edit"></i>
@@ -133,10 +133,12 @@
                                 <input type="text" class="form-control" id="phone_number" v-model="form.phone_number" placeholder="Enter Phone Number">
                                 <div class="text-danger font-italic" v-if="errors.phone_number">{{ errors.phone_number }}</div>
                             </div>
-                           <div class="form-group">
-                                <label for="assigned_truck">Assigned Truck</label>
-                                <input type="text" class="form-control" id="assigned_truck" v-model="form.assigned_truck" placeholder="Enter Assigned Truck">
-                                <div class="text-danger font-italic" v-if="errors.assigned_truck">{{ errors.assigned_truck }}</div>
+                            <div class="form-group">
+                                <label for="truck_id">Truck</label>
+                                <select class="form-control" id="truck_id" v-model="form.truck_id">
+                                    <option v-for="truck in trucks" :key="truck.id" :value="truck.id">{{ truck.number_plate }}</option>
+                                </select>
+                                <div class="text-danger font-italic" v-if="errors.truck_id">{{ errors.truck_id }}</div>
                             </div>
                             <div class="form-group">
                                 <label for="allowances">Allowances</label>
@@ -187,13 +189,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_phone_number">phone_number</label>
-                                <input type="text" class="form-control" id="edit_phone_number" v-model="form.phone_number" placeholder="Enter Phone number">
+                                <input type="text" class="form-control" id="edit_phone_number" v-model="form.phone_number" placeholder="Enter Phone Number">
                                 <div class="text-danger font-italic" v-if="errors.phone_number">{{ errors.phone_number }}</div>
                             </div>
-                           <div class="form-group">
-                                <label for="edit_assigned_truck">Assigned Truck</label>
-                                <input type="text" class="form-control" id="edit_assigned_truck" v-model="form.assigned_truck" placeholder="Enter Assigned Truck">
-                                <div class="text-danger font-italic" v-if="errors.assigned_truck">{{ errors.assigned_truck }}</div>
+                            <div class="form-group">
+                                <label for="edit_truck_id">Truck</label>
+                                <select class="form-control" id="edit_truck_id" v-model="form.truck_id">
+                                    <option v-for="truck in trucks" :key="truck.id" :value="truck.id">{{ truck.number_plate }}</option>
+                                </select>
+                                <div class="text-danger font-italic" v-if="errors.truck_id">{{ errors.truck_id }}</div>
                             </div>
                             <div class="form-group">
                                 <label for="edit_allowances">Allowances</label>
@@ -232,6 +236,7 @@
         },layout: AppLayout,
         props:{
             drivers: Object,
+            trucks: Object,
             errors:Object,
         },
         data() {
@@ -244,7 +249,7 @@
                form: this.$inertia.form({
                     name: null,
                     phone_number: null,
-                    assigned_truck: null,
+                    truck_id: null,
                     allowances: null,
                 }),
                 editableDriver: null,
@@ -263,7 +268,7 @@
             fillEditForm(driver){
                 this.form.name = driver.name;
                 this.form.phone_number = driver.phone_number;
-                this.form.assigned_truck = driver.assigned_truck;
+                this.form.truck_id = driver.truck_id;
                 this.form.allowances = driver.allowances;
             },
             // formClear(){

@@ -24,7 +24,7 @@ class TruckController extends Controller
             'field' => ['in:number_plate,manufacturer,model']
         ]);
         
-        $query = Truck::query();
+        $query = Truck::query()->with('driver');
 
         if(request('search')) {
             $query->where('number_plate','LIKE','%'.request('search').'%')

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\TrackRecord;
+use App\Models\Truck;
+use App\Models\Region;
+use App\Models\Client;
 use Illuminate\Support\Facades\DB;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -17,19 +20,22 @@ class TrackRecordController extends Controller
      */
     public function index()
     {
+        $trucks = Truck::all();
+        $regions = Region::with('client')->get();
+        $clients = Client::all();
         request()->validate([
             'direction' => ['in:asc,desc'],
             'field' => ['in:truck_number_plate,region,destination,customer,track_record_receipt_number,date']
         ]);
         
-        $query = TrackRecord::query();
+        $query = TrackRecord::query()->with('truck')->with('region')->with('client');
 
         if(request('search')) {
-            $query->where('truck_number_plate','LIKE','%'.request('search').'%')
+            $query->where('truck_id','LIKE','%'.request('search').'%')
             ->orWhere('date','LIKE','%'.request('search').'%')
-            ->orWhere('region','LIKE','%'.request('search').'%')
+            // ->orWhere('region_id','LIKE','%'.request('search').'%')
             ->orWhere('destination','LIKE','%'.request('search').'%')
-            ->orWhere('customer','LIKE','%'.request('search').'%')
+            // ->orWhere('client_id','LIKE','%'.request('search').'%')
             ->orWhere('track_record_receipt_number','LIKE','%'.request('search').'%');
         }
         if(request()->has(['field', 'direction'])) {
@@ -37,7 +43,10 @@ class TrackRecordController extends Controller
         }
         // dd($query);
         return Inertia::render('TrackRecordViews/TrackRecords', [
-            'track_records' => $query->paginate(4)->withQueryString()
+            'track_records' => $query->paginate(4)->withQueryString(),
+            'trucks' => $trucks,
+            'regions' => $regions,
+            'clients' => $clients,
         ]);
     }
 
@@ -61,10 +70,10 @@ class TrackRecordController extends Controller
     {
         TrackRecord::create(
             $request->validate([
-                'truck_number_plate' => 'required|exists:trucks,number_plate',
-                'region' => 'required|exists:regions',
+                'truck_id' => 'required|exists:trucks,id',
+                'region_id' => 'required|exists:regions,id',
                 'destination' => 'required|max:25',
-                'customer' => 'required|exists:customers, name',
+                'client_id' => 'required|exists:clients,id',
                 'track_record_receipt_number' => 'required|max:25',
                 'date' => 'required',
 
@@ -111,10 +120,10 @@ class TrackRecordController extends Controller
             return Redirect::route('track-record.index')->with('error', 'Oops...Track Record Does Not exist!', );
         }
         $request->validate([
-            'truck_number_plate' => 'required|exists:trucks,number_plate',
-            'region' => 'required|exists:regions',
+            'truck_id' => 'required|exists:trucks,id',
+            'region_id' => 'required|exists:regions,id',
             'destination' => 'required|max:25',
-            'customer' => 'required|exists:customers, name',
+            'client_id' => 'required|exists:clients,id',
             'track_record_receipt_number' => 'required|max:25',
             'date' => 'required',
         ]);

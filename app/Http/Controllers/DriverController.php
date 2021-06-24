@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Driver;
+use App\Models\Truck;
 use Illuminate\Support\Facades\DB;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -17,17 +18,18 @@ class DriverController extends Controller
      */
     public function index()
     {
+        $trucks = Truck::all();
         request()->validate([
             'direction' => ['in:asc,desc'],
             'field' => ['in:name,phone_number,assigned_truck,allowances']
         ]);
         
-        $query = Driver::query();
+        $query = Driver::query()->with('truck');
 
         if(request('search')) {
             $query->where('name','LIKE','%'.request('search').'%')
             ->orWhere('phone_number','LIKE','%'.request('search').'%')
-            ->orWhere('assigned_truck','LIKE','%'.request('search').'%')
+            // ->orWhere('assigned_truck','LIKE','%'.request('search').'%')
             ->orWhere('allowances','LIKE','%'.request('search').'%');
         }
         if(request()->has(['field', 'direction'])) {
@@ -35,7 +37,8 @@ class DriverController extends Controller
         }
         // dd($query);
         return Inertia::render('DriverViews/Drivers', [
-            'drivers' => $query->paginate(4)->withQueryString()
+            'drivers' => $query->paginate(4)->withQueryString(),
+            'trucks' => $trucks
         ]);
     }
 
@@ -61,7 +64,7 @@ class DriverController extends Controller
             $request->validate([
                 'name' => 'required|unique:drivers',
                 'phone_number' => 'required|max:50',
-                'assigned_truck' => 'required|exists:trucks,number_plate',
+                'truck_id' => 'required|exists:trucks,id',
                 'allowances' => 'max:50',
             ])
         );
@@ -108,7 +111,7 @@ class DriverController extends Controller
         $request->validate([
             'name' => 'required|exists:drivers',
             'phone_number' => 'required|max:50',
-            'assigned_truck' => 'required|exists:trucks,number_plate',
+            'truck_id' => 'required|exists:trucks,id',
             'allowances' => 'max:50',
         ]);
         $driver->update($request->all());
