@@ -20,6 +20,7 @@ class TrackRecord extends Model
         'client_id',
         'track_record_receipt_number',
         'date',
+        'invoice_id',
     ];
 
     public function truck(){
@@ -30,5 +31,8 @@ class TrackRecord extends Model
     }
     public function client(){
         return $this->belongsTo(Client::class);
+    }
+    public function invoice(){
+        return $this->belongsTo(Invoice::class);
     }
 }

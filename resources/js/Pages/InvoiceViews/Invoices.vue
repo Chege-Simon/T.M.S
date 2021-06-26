@@ -15,13 +15,13 @@
     <div class="container">
         <div class="card">
             <div class="card-header row">
-                <h3 class="card-title col-md-2">All Regions</h3>
+                <h3 class="card-title col-md-2">All Invoices</h3>
                 <div class="col-md-5">
                     <input type="search" v-model="params.search" class="form-control form-control-sm" placeholder="Search...">
                 </div>
                 <div class="col-md-3"></div>
                 <div class="col-md-2">
-                    <button class=" btn btn-success" @click="createModel">Register Region</button>
+                    <button class=" btn btn-success" @click="createModel">Register Invoice</button>
                 </div>
             </div>
             <!-- /.card-header -->
@@ -29,38 +29,26 @@
             <table id="example1" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th @click="sort('name')">
+                        <th @click="sort('id')">
                             <span>
-                                Name
-                                <svg v-if="params.field === 'name' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                Invoice No.
+                                <svg v-if="params.field === 'id' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
                                 </svg>
 
-                                <svg v-if="params.field === 'name' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                <svg v-if="params.field === 'id' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
                                 </svg>
                             </span>
                         </th>
-                        <th @click="sort('truck_model')">
+                        <th @click="sort('truck_id')">
                             <span>
-                                Truck Model
-                                <svg v-if="params.field === 'truck_model' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                Truck
+                                <svg v-if="params.field === 'truck_id' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
                                 </svg>
 
-                                <svg v-if="params.field === 'truck_model' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
-                                </svg>
-                            </span>
-                        </th>
-                        <th @click="sort('pricing')">
-                            <span>
-                                Pricing
-                                <svg v-if="params.field === 'pricing' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
-                                </svg>
-
-                                <svg v-if="params.field === 'pricing' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                <svg v-if="params.field === 'truck_id' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
                                 </svg>
                             </span>
@@ -77,22 +65,73 @@
                                 </svg>
                             </span>
                         </th>
+                        <th @click="sort('begin')">
+                            <span>
+                                Begin
+                                <svg v-if="params.field === 'begin' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
+                                </svg>
+
+                                <svg v-if="params.field === 'begin' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
+                                </svg>
+                            </span>
+                        </th>
+                        <th @click="sort('end')">
+                            <span>
+                                End
+                                <svg v-if="params.field === 'end' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
+                                </svg>
+
+                                <svg v-if="params.field === 'end' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
+                                </svg>
+                            </span>
+                        </th>
+                        <th @click="sort('total')">
+                            <span>
+                                Total
+                                <svg v-if="params.field === 'total' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
+                                </svg>
+
+                                <svg v-if="params.field === 'total' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
+                                </svg>
+                            </span>
+                        </th>
+                        <th @click="sort('status')">
+                            <span>
+                                Status
+                                <svg v-if="params.field === 'status' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
+                                </svg>
+
+                                <svg v-if="params.field === 'status' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
+                                </svg>
+                            </span>
+                        </th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
-                <tbody v-if="regions">
-                    <tr v-for="region in regions.data" :key="region.id" >
-                        <td>{{ region.name }}</td>
-                        <td>{{ region.truck_model }}</td>
-                        <td>{{ region.pricing }}</td>
-                        <td>{{ region.client.name }}</td>
+                <tbody v-if="invoices">
+                    <tr v-for="invoice in invoices.data" :key="invoice.id" >
+                        <td>{{ invoice.id }}</td>
+                        <td>{{ invoice.truck.number_plate }}</td>
+                        <td>{{ invoice.client.name }}</td>
+                        <td>{{ invoice.begin }}</td>
+                        <td>{{ invoice.end }}</td>
+                        <td>{{ invoice.total }}</td>
+                        <td>{{ invoice.status }}</td>
                         <td class="d-flex justify-content-center">
                             <span class="text-primary">
-                                <i class="fa fa-wrench fa-fw mx-1" @click="editModal(region)" data-toggle="tooltip" data-placement="top" title="Edit"></i>
+                                <i class="fa fa-wrench fa-fw mx-1" @click="editModal(invoice)" data-toggle="tooltip" data-placement="top" title="Update Status"></i>
                             </span>
                             |
-                            <span class="text-danger">
-                                <i class="fa fa-trash fa-fw mx-1" @click="deleteModal(region)" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                            <span class="text-success">
+                                <i class="fa fa-file fa-fw mx-1" @click="showInvoice(invoice.id)" data-toggle="tooltip" data-placement="top" title="Preview Invoice"></i>
                             </span>
                         </td>
                     </tr>
@@ -100,7 +139,7 @@
             </table>
             </div>
             <!-- /.card-body -->
-            <pagination class="mt-10" :links="regions.links"/>
+            <pagination class="mt-10" :links="invoices.links"/>
         </div>
     </div>
     <!-- create modal -->
@@ -108,7 +147,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Register Region</h4>
+              <h4 class="modal-title">Register Invoice</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -116,35 +155,37 @@
             <div class="modal-body">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Add Region Details</h3>
+                        <h3 class="card-title">Add Invoice Details</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form @submit.prevent="addRegion" :disabled="form.processing">
+                    <form @submit.prevent="addInvoice" :disabled="form.processing">
                         <div class="card-body">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Enter Name">
-                                <div class="text-danger font-italic" v-if="errors.name">{{ errors.name }}</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="truck_model">Truck Model</label>
-                                <input type="text" class="form-control" id="truck_model" v-model="form.truck_model" placeholder="Enter Truck Model">
-                                <div class="text-danger font-italic" v-if="errors.truck_model">{{ errors.truck_model }}</div>
-                            </div>
                            <div class="form-group">
-                                <label for="pricing">Pricing</label>
-                                <input type="number" class="form-control" id="pricing" v-model="form.pricing" placeholder="Enter Pricing">
-                                <div class="text-danger font-italic" v-if="errors.pricing">{{ errors.pricing }}</div>
+                                <label for="truck_id">Truck</label>
+                                <select class="form-control" id="truck_id" v-model="form.truck_id">
+                                    <option v-for="truck in trucks" :key="truck.id" :value="truck.id">{{ truck.number_plate }}</option>
+                                </select>
+                                <div class="text-danger font-italic" v-if="errors.truck_id">{{ errors.truck_id }}</div>
                             </div>
                             <div class="form-group">
                                 <label for="client_id">Client</label>
                                 <select class="form-control" id="client_id" v-model="form.client_id">
-                                    <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }}</option>
+                                    <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }} -- {{ client.address }}</option>
                                 </select>
                                 <div class="text-danger font-italic" v-if="errors.client_id">{{ errors.client_id }}</div>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label for="begin">Begin</label>
+                                <input type="date" class="form-control" id="begin" v-model="form.begin">
+                                <div class="text-danger font-italic" v-if="errors.begin">{{ errors.begin }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="end">End</label>
+                                <input type="date" class="form-control" id="end" v-model="form.end" placeholder="Enter end">
+                                <div class="text-danger font-italic" v-if="errors.end">{{ errors.end }}</div>
+                            </div>
+                        </div> 
                         <!-- /.card-body -->
 
                         <div class="card-footer form-group row">
@@ -167,7 +208,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Edit Region</h4>
+              <h4 class="modal-title">Update Invoice Status</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -175,38 +216,30 @@
             <div class="modal-body">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Edit Region Details</h3>
+                        <h3 class="card-title">Update Status</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form @submit.prevent="editRegion(editableRegion.id)" :disabled="form.processing">
+                    <form @submit.prevent="editInvoice(editableInvoice.id)" :disabled="form.processing">
                         <div class="card-body">
-                            <div class="form-group">
-                                <label for="edit_name">Name</label>
-                                <input type="text" class="form-control" id="edit_name" v-model="form.name" placeholder="Enter Name">
-                                <div class="text-danger font-italic" v-if="errors.name">{{ errors.name }}</div>
+                            <div v-if="editableInvoice">
+                                <p>Truck: {{editableInvoice.truck.number_plate}}</p>
+                                <p>Client: {{ editableInvoice.client.name }}</p>
+                                <p>Start Date: {{ editableInvoice.begin }}</p>
+                                <p>End Date{{ editableInvoice.end }}</p>
+                                <p>Total: Ksh{{ editableInvoice.total }}</p>
                             </div>
                             <div class="form-group">
-                                <label for="edit_truck_model">Truck Model</label>
-                                <input type="text" class="form-control" id="edit_truck_model" v-model="form.truck_model" placeholder="Enter Truck Model">
-                                <div class="text-danger font-italic" v-if="errors.truck_model">{{ errors.truck_model }}</div>
-                            </div>
-                           <div class="form-group">
-                                <label for="edit_pricing">Pricing</label>
-                                <input type="number" class="form-control" id="edit_pricing" v-model="form.pricing" placeholder="Enter Pricing">
-                                <div class="text-danger font-italic" v-if="errors.pricing">{{ errors.pricing }}</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_client_id">Client</label>
-                                <select class="form-control" id="edit_client_id" v-model="form.client_id">
-                                    <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }}</option>
+                                <label for="edit_status">Status</label>
+                                <select class="form-control" id="edit_status" v-model="form.status" >
+                                    <option value="Paid">Paid</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Cancelled">Cancelled</option>
                                 </select>
-                                <div class="text-danger font-italic" v-if="errors.client_id">{{ errors.client_id }}</div>
+                                <div class="text-danger font-italic" v-if="errors.status">{{ errors.status }}</div>
                             </div>
                         </div>
                         <!-- /.card-body -->
-
-
                         <div class="card-footer form-group row">
                             <div class="col-sm-10 text-right">
                                 <button type="submit" class="btn btn-primary"> <i class="fa fa-cog fa-fw"></i> Action</button>
@@ -235,41 +268,47 @@
             Pagination,
         },layout: AppLayout,
         props:{
-            regions: Object,
-            clients: Object,
+            invoices: Object,
+            trucks: Object,
+            truckRecords: Object,
+            clients:Object,
             errors:Object,
         },
         data() {
             return {
                params: {
                     search: null,
-                    field: 'name',
+                    field: 'id',
                     direction: 'asc',
                },
                form: this.$inertia.form({
-                    name: null,
-                    truck_model: null,
-                    pricing: null,
+                    begin: null,
+                    end: null,
+                    status: 'Pending',
+                    truck_id: null,
                     client_id: null,
                 }),
-                editableRegion: null,
+                editableInvoice: null,
             }
         },
         methods: {
-            deleteRegion(id){
-                this.$inertia.delete('/regions/'+id);
+            showInvoice(id){
+                this.$inertia.get('/invoices/'+id);
             },
-            editRegion(id){
-                this.$inertia.post('/regions/'+id, this.form);
+            editInvoice(id){
+                this.$inertia.post('invoices/'+id, this.form);
             },
-            addRegion(){
-                this.$inertia.post('/regions', this.form);
+            addInvoice(){
+                this.$inertia.post('/invoices', this.form);
+               
             },
-            fillEditForm(region){
-                this.form.name = region.name;
-                this.form.truck_model = region.truck_model;
-                this.form.pricing = region.pricing;
-                this.form.client_id = region.client_id;
+            fillEditForm(invoice){
+                this.form.begin = invoice.begin;
+                this.form.end = invoice.end;
+                this.form.total = invoice.total;
+                this.form.status = invoice.status;
+                this.form.truck_id = invoice.truck_id;
+                this.form.client_id = invoice.client_id;
             },
             // formClear(){
             //       for(const key in this.form){
@@ -281,10 +320,9 @@
                 this.params.direction = this.params.direction === 'asc' ? 'desc' : 'asc';
             },
             //open modals functions here
-            deleteModal(region){
-                // $('#delete-confirmation').modal('show')
+            deleteModal(invoice){
                 this.$swal.fire({
-                    title: 'Delete: '+region.name+'\nAre you sure?',
+                    title: 'Delete: '+invoice.id+'\nAre you sure?',
                     text: "You won't be able to revert this!",
                     icon: 'warning',
                     showCancelButton: true,
@@ -293,14 +331,14 @@
                     confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        this.deleteRegion(region.id);
+                        this.deleteInvoice(invoice.id);
                     }
                 })
             },
-            editModal(region){
+            editModal(invoice){
                 $('#edit-model').modal('show');
-                this.editableRegion = region;
-                this.fillEditForm(region);
+                this.editableInvoice = invoice;
+                this.fillEditForm(invoice);
             },
             createModel(){
                 $('#create-model').modal('show');
@@ -365,7 +403,7 @@
                         }
                     });
 
-                    this.$inertia.get(this.route('regions.index'), params, {replace: true, preserveState: true});
+                    this.$inertia.get(this.route('invoices.index'), params, {replace: true, preserveState: true});
                 },
                 deep: true,
             }

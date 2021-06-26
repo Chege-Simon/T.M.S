@@ -10,6 +10,9 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PayBillController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\CapitalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,14 +34,18 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->name('dashboard');
 
-;
+// ;
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function(){
+    // Dashboard routes
+    // Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard.index');
     //trucks routes
     Route::get('/trucks', [TruckController::class, 'index'])->name('trucks.index');
     Route::post('/trucks', [TruckController::class, 'store'])->name('trucks.store');
@@ -74,4 +81,19 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::post('/bills', [PayBillController::class, 'store'])->name('bills.store');
     Route::post('/bills/{id}', [PayBillController::class, 'update'])->name('bills.update');
     Route::delete('/bills/{id}', [PayBillController::class, 'destroy'])->name('bills.destroy');
+    // invoices routes
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+    Route::post('/invoices/{id}', [InvoiceController::class, 'update'])->name('invoices.update');
+    Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
+    // capital routes
+    Route::get('/capital', [CapitalController::class, 'index'])->name('capital.index');
+    Route::post('/capital', [CapitalController::class, 'store'])->name('capital.store');
+    Route::post('/capital/{id}', [CapitalController::class, 'update'])->name('capital.update');
+    Route::get('/capital/{id}', [CapitalController::class, 'show'])->name('capital.show');
+    // report routes
+    Route::get('/report', [InvoiceController::class, 'index'])->name('report.index');
+    Route::post('/report', [InvoiceController::class, 'store'])->name('report.store');
+    Route::post('/report/{id}', [InvoiceController::class, 'update'])->name('report.update');
+    Route::get('/report/{id}', [InvoiceController::class, 'show'])->name('report.show');
 });

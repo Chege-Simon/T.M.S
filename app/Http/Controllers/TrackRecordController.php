@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class TrackRecordController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -25,18 +26,19 @@ class TrackRecordController extends Controller
         $clients = Client::all();
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:truck_number_plate,region,destination,customer,track_record_receipt_number,date']
+            'field' => ['in:truck_id,region_id,destination,client_id,track_record_receipt_number,date']
         ]);
         
         $query = TrackRecord::query()->with('truck')->with('region')->with('client');
 
         if(request('search')) {
-            $query->where('truck_id','LIKE','%'.request('search').'%')
-            ->orWhere('date','LIKE','%'.request('search').'%')
-            // ->orWhere('region_id','LIKE','%'.request('search').'%')
-            ->orWhere('destination','LIKE','%'.request('search').'%')
-            // ->orWhere('client_id','LIKE','%'.request('search').'%')
-            ->orWhere('track_record_receipt_number','LIKE','%'.request('search').'%');
+            $searchTerm = request('search');
+            $query->where('truck_id','LIKE',$this->searchTruck($searchTerm))
+            ->orWhere('date','LIKE','%'.$searchTerm.'%')
+            ->orWhere('region_id','LIKE',$this->searchRegion($searchTerm))
+            ->orWhere('destination','LIKE','%'.$searchTerm.'%')
+            ->orWhere('client_id','LIKE',$this->searchClient($searchTerm))
+            ->orWhere('track_record_receipt_number','LIKE','%'.$searchTerm.'%');
         }
         if(request()->has(['field', 'direction'])) {
             $query->orderBy(request('field'), request('direction'));
@@ -147,5 +149,34 @@ class TrackRecordController extends Controller
         }
         $track_record->delete();
         return Redirect::route('track-record.index')->with('message', 'Track Record has been deleted!', );
+    }
+
+    // custom functions
+    public function searchTruck($number_plate)
+    {
+        $truck = Truck::where('number_plate','LIKE','%'.$number_plate.'%')->first();
+        $id = '';
+        if($truck != null){
+            $id = $truck->id;
+        }
+        return $id;
+    }
+    public function searchRegion($name)
+    {
+        $region = Region::where('name','LIKE','%'.$name.'%')->first();
+        $id = '';
+        if($region != null){
+            $id = $region->id;
+        }
+        return $id;
+    }
+    public function searchClient($name)
+    {
+        $client = Client::where('name','LIKE','%'.$name.'%')->first();
+        $id = '';
+        if($client != null){
+            $id = $client->id;
+        }
+        return $id;
     }
 }

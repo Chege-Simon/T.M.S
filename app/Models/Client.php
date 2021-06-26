@@ -20,4 +20,9 @@ class Client extends Model
         'email',
         'address',
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }

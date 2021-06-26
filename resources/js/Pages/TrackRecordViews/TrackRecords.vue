@@ -175,7 +175,7 @@
                             <div class="form-group">
                                 <label for="client_id">Client</label>
                                 <select class="form-control" id="client_id" v-model="form.client_id">
-                                    <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }}</option>
+                                    <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }} -- {{ client.address }}</option>
                                 </select>
                                 <div class="text-danger font-italic" v-if="errors.client_id">{{ errors.client_id }}</div>
                             </div>
@@ -250,7 +250,7 @@
                                 <select class="form-control" id="edit_client_id" v-model="form.client_id">
                                     <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }}</option>
                                 </select>
-                                <div class="text-danger font-italic" v-if="errors.client_id">{{ errors.client_id }}</div>
+                                <div class="text-danger font-italic" v-if="errors.client_id">{{ errors.client_id }} {{ client.address }}</div>
                             </div>
                             <div class="form-group">
                                 <label for="edit_track_record_receipt_number">Track Record Receipt Number</label>

@@ -14,9 +14,18 @@ class Bill extends Model
     * @var array
     */
    protected $fillable = [
-       'expense_type',
-       'truck',
+       'expense_id',
+       'truck_id',
        'amount',
        'date',
    ];
+
+   public function expense()
+   {
+       return $this->belongsTo(Expense::class);
+   }
+   public function truck()
+   {
+       return $this->belongsTo(Truck::class);
+   }
 }

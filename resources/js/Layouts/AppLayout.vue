@@ -113,7 +113,7 @@
                 </li>
                 
                 <li class="nav-item ml-3">
-                    <a href="/dashboard" class="nav-link ">
+                    <a href="/invoices" class="nav-link ">
                         <i class="fa fa-file nav-icon text-warning"></i>
                         <p>Invoices</p>
                     </a>
@@ -146,7 +146,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item ml-3">
-                    <a href="/expense" class="nav-link">
+                    <a href="/reports" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Financial Reports</p>
                     </a>
@@ -164,7 +164,7 @@
                     </a>
                 </li>
                 <li class="nav-item ml-3">
-                    <a href="/trucks" class="nav-link">
+                    <a href="/capital" class="nav-link">
                         <i class="fa fa-university nav-icon"></i>
                         <p>Capital</p>
                     </a>
@@ -210,7 +210,7 @@
     </div>
     <!-- /.content-wrapper -->
 
-    <footer class="main-footer">
+    <footer class="main-footer no-print">
       <div class="float-right d-none d-sm-block">
         <b><a href="https://jetstream.laravel.com">Jetstream</a></b>
       </div>
@@ -257,6 +257,6 @@ export default {
     path() {
       return window.location.pathname
     }
-  }
+  },
 }
 </script>

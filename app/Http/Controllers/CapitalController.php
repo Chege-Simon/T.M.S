@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Models\Region;
-use App\Models\Client;
+use App\Models\Capital;
 use Illuminate\Support\Facades\DB;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class RegionController extends Controller
+class CapitalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,28 +17,26 @@ class RegionController extends Controller
      */
     public function index()
     {
-        $clients = Client::all();   
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,truck_model,pricing,client_id']
+            'field' => ['in:asset_type,description,amount,date']
         ]);
         
-        $query = Region::query()->with('client');
+        $query = Capital::query();
 
         if(request('search')) {
             $searchTerm = request('search');
-            $query->where('name','LIKE','%'.$searchTerm.'%')
-            ->orWhere('truck_model','LIKE','%'.$searchTerm.'%')
-            ->orWhere('client_id','LIKE',$this->searchClient($searchTerm))
-            ->orWhere('pricing','LIKE','%'.$searchTerm.'%');
+            $query->where('asset_type','LIKE','%'.$searchTerm.'%')
+            ->orWhere('description','LIKE','%'.$searchTerm.'%')
+            ->orWhere('date','LIKE','%'.$searchTerm.'%')
+            ->orWhere('amount','LIKE','%'.$searchTerm.'%');
         }
         if(request()->has(['field', 'direction'])) {
             $query->orderBy(request('field'), request('direction'));
         }
         // dd($query);
-        return Inertia::render('RegionViews/Regions', [
-            'regions' => $query->paginate(4)->withQueryString(),
-            'clients' => $clients
+        return Inertia::render('CapitalViews/Capital', [
+            'capitals' => $query->paginate(4)->withQueryString()
         ]);
     }
 
@@ -50,7 +47,7 @@ class RegionController extends Controller
      */
     public function create()
     {
-        // 
+        //
     }
 
     /**
@@ -61,15 +58,15 @@ class RegionController extends Controller
      */
     public function store(Request $request)
     {
-        Region::create(
+        Capital::create(
             $request->validate([
-                'name' => 'required',
-                'truck_model' => 'required|max:50',
-                'pricing' => 'required|integer',
-                'client_id' => 'required|exists:clients,id'
+                'asset_type' => 'required|max:50',
+                'description' => 'required|max:200',
+                'date' => 'required',
+                'amount' => 'required|integer',
             ])
         );
-        return Redirect::route('regions.index')->with('message', 'Region Registered Successfully');
+        return Redirect::route('capital.index')->with('message', 'Capital Added Successfully');
     }
 
     /**
@@ -91,7 +88,7 @@ class RegionController extends Controller
      */
     public function edit($id)
     {
-        //
+        // 
     }
 
     /**
@@ -103,19 +100,20 @@ class RegionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $region = null;
+        $capital = null;
         try{
-            $region = Region::findOrFail($id);
+            $capital = Capital::findOrFail($id);
         }catch(ModelNotFoundException $e){
-            return Redirect::route('regions.index')->with('error', 'Oops...Region Does Not exist!', );
+            return Redirect::route('capital.index')->with('error', 'Oops...Capital Does Not exist!', );
         }
         $request->validate([
-            'name' => 'required|exists:regions',
-            'truck_model' => 'required|max:50',
-            'pricing' => 'required|integer',
+            'asset_type' => 'required|max:50',
+            'description' => 'required|max:200',
+            'date' => 'required',
+            'amount' => 'required|integer',
         ]);
-        $region->update($request->all());
-        return Redirect::route('regions.index')->with('message', 'Region Details Edited Successfully');
+        $capital->update($request->all());
+        return Redirect::route('capital.index')->with('message', 'Capital Details Edited Successfully');
     }
 
     /**
@@ -126,23 +124,13 @@ class RegionController extends Controller
      */
     public function destroy($id)
     {
-        $region = null;
+        $capital = null;
         try{
-            $region = Region::findOrFail($id);
+            $capital = Capital::findOrFail($id);
         }catch(ModelNotFoundException $e){
-            return Redirect::route('regions.index')->with('error', 'Oops...Region Does Not exist!', );
+            return Redirect::route('capital.index')->with('error', 'Oops...Captial Does Not exist!', );
         }
-        $region->delete();
-        return Redirect::route('regions.index')->with('message', 'Region has been deleted!', );
-    }
-    //custom functions
-    public function searchClient($name)
-    {
-        $client = Client::where('name','LIKE','%'.$name.'%')->first();
-        $id = '';
-        if($client != null){
-            $id = $client->id;
-        }
-        return $id;
+        $capital->delete();
+        return Redirect::route('capital.index')->with('message', 'Captial has been deleted!', );
     }
 }

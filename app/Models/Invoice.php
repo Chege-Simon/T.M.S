@@ -5,34 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Truck extends Model
+class Invoice extends Model
 {
     use HasFactory;
-
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'number_plate',
-        'manufacturer',
-        'model',
-        'color',
+        'begin',
+        'end',
+        'total',
+        'status',
+        'truck_id',
+        'client_id',
     ];
 
     public function track_records(){
         return $this->hasMany(TrackRecord::class);
     }
-    public function driver(){
-        return $this->hasOne(Driver::class);
+    public function client(){
+        return $this->belongsTo(Client::class);
     }
-    public function invoices()
-    {
-        return $this->hasMany(Invoice::class);
-    }
-    public function bills()
-    {
-        return $this->hasMany(Bill::class);
+    public function truck(){
+        return $this->belongsTo(Truck::class);
     }
 }

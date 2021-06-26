@@ -98,12 +98,12 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="expense_type">Expense</label>
-                                <input type="text" class="form-control" id="expense_type" v-model="form.expense_type" placeholder="Enter Number plate">
+                                <input type="text" class="form-control" id="expense_type" v-model="form.expense_type" placeholder="Enter Expense Type">
                                 <div class="text-danger font-italic" v-if="errors.expense_type">{{ errors.expense_type }}</div>
                             </div>
                            <div class="form-group">
                                 <label for="account">Account</label>
-                                <input type="text" class="form-control" id="account" v-model="form.account" placeholder="Enter Assigned Truck">
+                                <input type="text" class="form-control" id="account" v-model="form.account" placeholder="Enter Account">
                                 <div class="text-danger font-italic" v-if="errors.account">{{ errors.account }}</div>
                             </div>
                         </div>

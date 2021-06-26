@@ -21,16 +21,17 @@ class DriverController extends Controller
         $trucks = Truck::all();
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,phone_number,assigned_truck,allowances']
+            'field' => ['in:name,phone_number,truck_id,allowances']
         ]);
         
         $query = Driver::query()->with('truck');
 
         if(request('search')) {
-            $query->where('name','LIKE','%'.request('search').'%')
-            ->orWhere('phone_number','LIKE','%'.request('search').'%')
-            // ->orWhere('assigned_truck','LIKE','%'.request('search').'%')
-            ->orWhere('allowances','LIKE','%'.request('search').'%');
+            $searchTerm = request('search');
+            $query->where('name','LIKE','%'.$searchTerm .'%')
+            ->orWhere('phone_number','LIKE','%'.$searchTerm .'%')
+            ->orWhere('truck_id','LIKE',$this->searchTruck($searchTerm))
+            ->orWhere('allowances','LIKE','%'.$searchTerm .'%');
         }
         if(request()->has(['field', 'direction'])) {
             $query->orderBy(request('field'), request('direction'));
@@ -134,5 +135,15 @@ class DriverController extends Controller
         }
         $driver->delete();
         return Redirect::route('drivers.index')->with('message', 'Drivers has been deleted!', );
+    }
+    // custom functions
+    public function searchTruck($number_plate)
+    {
+        $truck = Truck::where('number_plate','LIKE','%'.$number_plate.'%')->first();
+        $id = '';
+        if($truck != null){
+            $id = $truck->id;
+        }
+        return $id;
     }
 }

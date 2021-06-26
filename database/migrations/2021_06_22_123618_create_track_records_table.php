@@ -20,6 +20,7 @@ class CreateTrackRecordsTable extends Migration
             $table->integer('region_id')->unsigned()->index();
             $table->String('destination');
             $table->integer('client_id')->unsigned()->index();
+            $table->integer('invoice_id')->nullable()->unsigned()->index();
             $table->String('track_record_receipt_number');
             $table->timestamps();
         });

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Expense extends Model
+class Capital extends Model
 {
     use HasFactory;
     /**
@@ -14,12 +14,9 @@ class Expense extends Model
     * @var array
     */
    protected $fillable = [
-       'expense_type',
-       'account',
-   ];
-   
-   public function bills()
-   {
-       return $this->hasMany(Bill::class);
-   }
+    'asset_type',
+    'description',
+    'amount',
+    'date',
+    ];
 }

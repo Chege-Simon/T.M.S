@@ -41,26 +41,26 @@
                                 </svg>
                             </span>
                         </th>
-                        <th @click="sort('expense_type')">
+                        <th @click="sort('expense_id')">
                             <span>
                                 Expense
-                                <svg v-if="params.field === 'expense_type' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                <svg v-if="params.field === 'expense_id' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
                                 </svg>
 
-                                <svg v-if="params.field === 'expense_type' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                <svg v-if="params.field === 'expense_id' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
                                 </svg>
                             </span>
                         </th>
-                        <th @click="sort('truck')">
+                        <th @click="sort('truck_id')">
                             <span>
                                 Truck
-                                <svg v-if="params.field === 'truck' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                <svg v-if="params.field === 'truck_id' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
                                 </svg>
 
-                                <svg v-if="params.field === 'truck' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                <svg v-if="params.field === 'truck_id' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
                                 </svg>
                             </span>
@@ -83,9 +83,9 @@
                 <tbody v-if="bills">
                     <tr v-for="bill in bills.data" :key="bill.id" >
                         <td>{{ bill.date }}</td>
-                        <td>{{ bill.expense_type }}</td>
-                        <td>{{ bill.truck }}</td>
-                        <td>{{ bill.amount }}</td>
+                        <td>{{ bill.expense.expense_type }}</td>
+                        <td>{{ bill.truck.number_plate }}</td>
+                        <td>Ksh {{ bill.amount }}</td>
                         <td class="d-flex justify-content-center">
                             <span class="text-primary">
                                 <i class="fa fa-wrench fa-fw mx-1" @click="editModal(bill)" data-toggle="tooltip" data-placement="top" title="Edit"></i>
@@ -124,13 +124,17 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="expense_type">Expense</label>
-                                <input type="text" class="form-control" id="expense_type" v-model="form.expense_type" placeholder="Enter Expense">
-                                <div class="text-danger font-italic" v-if="errors.expense_type">{{ errors.expense_type }}</div>
+                                <select class="form-control" id="expense_type" v-model="form.expense_id">
+                                    <option v-for="expense in expenses" :key="expense.id" :value="expense.id">{{ expense.expense_type }}</option>
+                                </select>
+                                <div class="text-danger font-italic" v-if="errors.expense_id">{{ errors.expense_id }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="truck">Truck</label>
-                                <input type="text" class="form-control" id="truck" v-model="form.truck" placeholder="Enter Truck">
-                                <div class="text-danger font-italic" v-if="errors.truck">{{ errors.truck }}</div>
+                                <label for="truck_id">Truck</label>
+                                <select class="form-control" id="truck_id" v-model="form.truck_id">
+                                    <option v-for="truck in trucks" :key="truck.id" :value="truck.id">{{ truck.number_plate }}</option>
+                                </select>
+                                <div class="text-danger font-italic" v-if="errors.truck_id">{{ errors.truck_id }}</div>
                             </div>
                             <div class="form-group">
                                 <label for="date">Date</label>
@@ -181,8 +185,10 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="edit_expense_type">Expense</label>
-                                <input type="text" class="form-control" id="edit_expense_type" v-model="form.expense_type" placeholder="Enter Expense">
-                                <div class="text-danger font-italic" v-if="errors.expense_type">{{ errors.expense_type }}</div>
+                                <select class="form-control" id="edit_expense_type" v-model="form.expense_id">
+                                    <option v-for="expense in expenses" :key="expense.id" :value="expense.id">{{ expense.expense_id }}</option>
+                                </select>
+                                <div class="text-danger font-italic" v-if="errors.expense_id">{{ errors.expense_id }}</div>
                             </div>
                             <div class="form-group">
                                 <label for="edit_truck">Truck</label>
@@ -231,6 +237,8 @@
         },layout: AppLayout,
         props:{
             bills: Object,
+            expenses: Object,
+            trucks: Object,
             errors:Object,
         },
         data() {
@@ -241,8 +249,9 @@
                     direction: 'asc',
                },
                form: this.$inertia.form({
-                    expense_type: null,
-                    truck: null,
+                    expense_id: null,
+                    truck_id: null,
+                    date: null,
                     amount: null,
                 }),
                 editableBill: null,

@@ -15,13 +15,13 @@
     <div class="container">
         <div class="card">
             <div class="card-header row">
-                <h3 class="card-title col-md-2">All Trucks</h3>
+                <h3 class="card-title col-md-2">All Capitals</h3>
                 <div class="col-md-5">
                     <input type="search" v-model="params.search" class="form-control form-control-sm" placeholder="Search...">
                 </div>
                 <div class="col-md-3"></div>
                 <div class="col-md-2">
-                    <button class=" btn btn-success" @click="createModel">Register Truck</button>
+                    <button class=" btn btn-success" @click="createModel">Register Capital</button>
                 </div>
             </div>
             <!-- /.card-header -->
@@ -29,64 +29,70 @@
             <table id="example1" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th @click="sort('number_plate')">
+                        <th @click="sort('asset_type')">
                             <span>
-                                Number Plate
-                                <svg v-if="params.field === 'number_plate' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                Asset Type
+                                <svg v-if="params.field === 'asset_type' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
                                 </svg>
 
-                                <svg v-if="params.field === 'number_plate' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                <svg v-if="params.field === 'asset_type' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
                                 </svg>
                             </span>
                         </th>
-                        <th @click="sort('manufacturer')">
+                        <th @click="sort('description')">
                             <span>
-                                Manufacturer
-                                <svg v-if="params.field === 'manufacturer' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                Description
+                                <svg v-if="params.field === 'description' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
                                 </svg>
 
-                                <svg v-if="params.field === 'manufacturer' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                <svg v-if="params.field === 'description' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
                                 </svg>
                             </span>
                         </th>
-                        <th @click="sort('model')">
+                        <th @click="sort('date')">
                             <span>
-                                Model
-                                <svg v-if="params.field === 'model' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                Date
+                                <svg v-if="params.field === 'date' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
                                 </svg>
 
-                                <svg v-if="params.field === 'model' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                <svg v-if="params.field === 'date' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
                                 </svg>
                             </span>
                         </th>
-                        <th>Color</th>
-                        <th class="text-center">Has Driver(Yes/No)</th>
+                        <th @click="sort('amount')">
+                            <span>
+                                Amount
+                                <svg v-if="params.field === 'amount' && params.direction === 'asc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
+                                </svg>
+
+                                <svg v-if="params.field === 'amount' && params.direction === 'desc'" xmlns="http://www.w3.org/2000/svg" style='width:20px' viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"/>
+                                </svg>
+                            </span>
+                        </th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
-                <tbody v-if="trucks">
-                    <tr v-for="truck in trucks.data" :key="truck.id" >
-                        <td>{{ truck.number_plate }}</td>
-                        <td>{{ truck.manufacturer }}</td>
-                        <td>{{ truck.model }}</td>
-                        <td>{{ truck.color }}</td>
-                        <td class="text-center">
-                            <span v-if="truck.driver"><i class="fa fa-check" aria-hidden="true"></i></span>
-                            <span v-else-if="!truck.driver"><i class="fa fa-times" aria-hidden="true"></i></span>
-                        </td>
+                <tbody v-if="capitals">
+                    <tr v-for="capital in capitals.data" :key="capital.id" >
+                        <td>{{ capital.asset_type }}</td>
+                        <td>{{ capital.description }}</td>
+                        <td>{{ capital.date }}</td>
+                        <td>{{ capital.amount }}</td>
                         <td class="d-flex justify-content-center">
                             <span class="text-primary">
-                                <i class="fa fa-wrench fa-fw mx-1" @click="editModal(truck)" data-toggle="tooltip" data-placement="top" title="Edit"></i>
+                                <i class="fa fa-wrench fa-fw mx-1" @click="editModal(capital)" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                             </span>
                             |
                             <span class="text-danger">
-                                <i class="fa fa-trash fa-fw mx-1" @click="deleteModal(truck)" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                                <i class="fa fa-trash fa-fw mx-1" @click="deleteModal(capital)" data-toggle="tooltip" data-placement="top" title="Delete"></i>
                             </span>
                         </td>
                     </tr>
@@ -94,7 +100,7 @@
             </table>
             </div>
             <!-- /.card-body -->
-            <pagination class="mt-10" :links="trucks.links"/>
+            <pagination class="mt-10" :links="capitals.links"/>
         </div>
     </div>
     <!-- create modal -->
@@ -102,7 +108,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Register Truck</h4>
+              <h4 class="modal-title">Register Capital</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -110,31 +116,31 @@
             <div class="modal-body">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Add Truck Details</h3>
+                        <h3 class="card-title">Add Capital Details</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form @submit.prevent="addTruck" :disabled="form.processing">
+                    <form @submit.prevent="addCapital" :disabled="form.processing">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="number_plate">Number Plate</label>
-                                <input type="text" class="form-control" id="number_plate" v-model="form.number_plate" placeholder="Enter Number plate">
-                                <div class="text-danger font-italic" v-if="errors.number_plate">{{ errors.number_plate }}</div>
+                                <label for="asset_type">Asset Type</label>
+                                <input type="text" class="form-control" id="asset_type" v-model="form.asset_type" placeholder="Enter Asset Type">
+                                <div class="text-danger font-italic" v-if="errors.asset_type">{{ errors.asset_type }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="manufacturer">Manufacturer</label>
-                                <input type="text" class="form-control" id="manufacturer" v-model="form.manufacturer" placeholder="Enter Manufacturer">
-                                <div class="text-danger font-italic" v-if="errors.manufacturer">{{ errors.manufacturer }}</div>
+                                <label for="description">Description</label>
+                                <input type="text" class="form-control" id="description" v-model="form.description" placeholder="Enter Description">
+                                <div class="text-danger font-italic" v-if="errors.description">{{ errors.description }}</div>
+                            </div>
+                           <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="date" class="form-control" id="date" v-model="form.date" placeholder="Enter Date">
+                                <div class="text-danger font-italic" v-if="errors.date">{{ errors.date }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="model">Model</label>
-                                <input type="text" class="form-control" id="model" v-model="form.model" placeholder="Enter Model">
-                                <div class="text-danger font-italic" v-if="errors.model">{{ errors.model }}</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="color">Color</label>
-                                <input type="text" class="form-control" id="color" v-model="form.color" placeholder="Enter Color">
-                                <div class="text-danger font-italic" v-if="errors.color">{{ errors.color }}</div>
+                                <label for="amount">Amount</label>
+                                    <input type="number" class="form-control" id="amount" v-model="form.amount" placeholder="Enter Amount">
+                                <div class="text-danger font-italic" v-if="errors.amount">{{ errors.amount }}</div>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -159,7 +165,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Edit Truck</h4>
+              <h4 class="modal-title">Edit Capital</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -167,34 +173,35 @@
             <div class="modal-body">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Edit Truck Details</h3>
+                        <h3 class="card-title">Edit Capital Details</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form @submit.prevent="editTruck(editableTruck.id)" :disabled="form.processing">
+                    <form @submit.prevent="editCapital(editableCapital.id)" :disabled="form.processing">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="edit_number_plate">Number Plate</label>
-                                <input type="text" class="form-control" id="edit_number_plate" v-model="form.number_plate" placeholder="Enter Number plate">
-                                <div class="text-danger font-italic" v-if="errors.number_plate">{{ errors.number_plate }}</div>
+                                <label for="edit_asset_type">Asset Type</label>
+                                <input type="text" class="form-control" id="edit_asset_type" v-model="form.asset_type" placeholder="Enter Asset Type">
+                                <div class="text-danger font-italic" v-if="errors.asset_type">{{ errors.asset_type }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="edit_manufacturer">Manufacturer</label>
-                                <input type="text" class="form-control" id="edit_manufacturer" v-model="form.manufacturer" placeholder="Enter Manufacturer">
-                                <div class="text-danger font-italic" v-if="errors.manufacturer">{{ errors.manufacturer }}</div>
+                                <label for="edit_description">Description</label>
+                                <input type="text" class="form-control" id="edit_description" v-model="form.description" placeholder="Enter Description">
+                                <div class="text-danger font-italic" v-if="errors.description">{{ errors.description }}</div>
+                            </div>
+                           <div class="form-group">
+                                <label for="edit_date">Date</label>
+                                <input type="date" class="form-control" id="edit_date" v-model="form.date" placeholder="Enter date">
+                                <div class="text-danger font-italic" v-if="errors.date">{{ errors.date }}</div>
                             </div>
                             <div class="form-group">
-                                <label for="edit_model">Model</label>
-                                <input type="text" class="form-control" id="edit_model" v-model="form.model" placeholder="Enter Model">
-                                <div class="text-danger font-italic" v-if="errors.model">{{ errors.model }}</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_color">Color</label>
-                                <input type="text" class="form-control" id="edit_color" v-model="form.color" placeholder="Enter Color">
-                                <div class="text-danger font-italic" v-if="errors.color">{{ errors.color }}</div>
+                                <label for="edit_amount">Amount</label>
+                                    <input type="number" class="form-control" id="edit_amount" v-model="form.amount" placeholder="Enter amount">
+                                <div class="text-danger font-italic" v-if="errors.amount">{{ errors.amount }}</div>
                             </div>
                         </div>
                         <!-- /.card-body -->
+
 
                         <div class="card-footer form-group row">
                             <div class="col-sm-10 text-right">
@@ -224,41 +231,40 @@
             Pagination,
         },layout: AppLayout,
         props:{
-            trucks: Object,
+            capitals: Object,
             errors:Object,
         },
         data() {
             return {
                params: {
                     search: null,
-                    field: 'number_plate',
+                    field: 'name',
                     direction: 'asc',
                },
                form: this.$inertia.form({
-                    number_plate: null,
-                    manufacturer: null,
-                    model: null,
-                    color: null,
+                    asset_type: null,
+                    description: null,
+                    date: null,
+                    amount: null,
                 }),
-                editableTruck: null,
+                editableCapital: null,
             }
         },
         methods: {
-            deleteTruck(id){
-                this.$inertia.delete('/trucks/'+id);
+            deleteCapital(id){
+                this.$inertia.delete('/capital/'+id);
             },
-            editTruck(id){
-                this.$inertia.post('trucks/'+id, this.form);
+            editCapital(id){
+                this.$inertia.post('/capital/'+id, this.form);
             },
-            addTruck(){
-                this.$inertia.post('/trucks', this.form);
-               
+            addCapital(){
+                this.$inertia.post('/capital', this.form);
             },
-            fillEditForm(truck){
-                this.form.number_plate = truck.number_plate;
-                this.form.manufacturer = truck.manufacturer;
-                this.form.model = truck.model;
-                this.form.color = truck.color;
+            fillEditForm(capital){
+                this.form.asset_type = capital.asset_type;
+                this.form.description = capital.description;
+                this.form.date = capital.date;
+                this.form.amount = capital.amount;
             },
             // formClear(){
             //       for(const key in this.form){
@@ -270,10 +276,10 @@
                 this.params.direction = this.params.direction === 'asc' ? 'desc' : 'asc';
             },
             //open modals functions here
-            deleteModal(truck){
+            deleteModal(capital){
                 // $('#delete-confirmation').modal('show')
                 this.$swal.fire({
-                    title: 'Delete: '+truck.number_plate+'\nAre you sure?',
+                    title: 'Delete: '+capital.name+'\nAre you sure?',
                     text: "You won't be able to revert this!",
                     icon: 'warning',
                     showCancelButton: true,
@@ -282,14 +288,14 @@
                     confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        this.deleteTruck(truck.id);
+                        this.deleteCapital(capital.id);
                     }
                 })
             },
-            editModal(truck){
+            editModal(capital){
                 $('#edit-model').modal('show');
-                this.editableTruck = truck;
-                this.fillEditForm(truck);
+                this.editableCapital = capital;
+                this.fillEditForm(capital);
             },
             createModel(){
                 $('#create-model').modal('show');
@@ -354,7 +360,7 @@
                         }
                     });
 
-                    this.$inertia.get(this.route('trucks.index'), params, {replace: true, preserveState: true});
+                    this.$inertia.get(this.route('capital.index'), params, {replace: true, preserveState: true});
                 },
                 deep: true,
             }
