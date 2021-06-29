@@ -36,7 +36,7 @@ class CapitalController extends Controller
         }
         // dd($query);
         return Inertia::render('CapitalViews/Capital', [
-            'capitals' => $query->paginate(4)->withQueryString()
+            'capitals' => $query->paginate(30)->withQueryString()
         ]);
     }
 

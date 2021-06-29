@@ -38,7 +38,7 @@ class DriverController extends Controller
         }
         // dd($query);
         return Inertia::render('DriverViews/Drivers', [
-            'drivers' => $query->paginate(4)->withQueryString(),
+            'drivers' => $query->paginate(30)->withQueryString(),
             'trucks' => $trucks
         ]);
     }

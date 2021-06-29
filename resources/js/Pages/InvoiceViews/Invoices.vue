@@ -113,6 +113,9 @@
                                 </svg>
                             </span>
                         </th>
+                        <th>
+                            Contract
+                        </th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -125,6 +128,7 @@
                         <td>{{ invoice.end }}</td>
                         <td>{{ invoice.total }}</td>
                         <td>{{ invoice.status }}</td>
+                        <td>{{ invoice.contract.name }}</td>
                         <td class="d-flex justify-content-center">
                             <span class="text-primary">
                                 <i class="fa fa-wrench fa-fw mx-1" @click="editModal(invoice)" data-toggle="tooltip" data-placement="top" title="Update Status"></i>
@@ -184,6 +188,13 @@
                                 <label for="end">End</label>
                                 <input type="date" class="form-control" id="end" v-model="form.end" placeholder="Enter end">
                                 <div class="text-danger font-italic" v-if="errors.end">{{ errors.end }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contract_id">Contract</label>
+                                <select class="form-control" id="contract_id" v-model="form.contract_id">
+                                    <option v-for="contract in contracts" :key="contract.id" :value="contract.id">{{ contract.name }} -- {{ contract.terms }}days</option>
+                                </select>
+                                <div class="text-danger font-italic" v-if="errors.contract_id">{{ errors.contract_id }}</div>
                             </div>
                         </div> 
                         <!-- /.card-body -->
@@ -269,6 +280,7 @@
         },layout: AppLayout,
         props:{
             invoices: Object,
+            contracts: Object,
             trucks: Object,
             truckRecords: Object,
             clients:Object,
@@ -287,6 +299,7 @@
                     status: 'Pending',
                     truck_id: null,
                     client_id: null,
+                    contract_id: null,
                 }),
                 editableInvoice: null,
             }
@@ -309,6 +322,7 @@
                 this.form.status = invoice.status;
                 this.form.truck_id = invoice.truck_id;
                 this.form.client_id = invoice.client_id;
+                this.form.contract_id = invoice.contract_id;
             },
             // formClear(){
             //       for(const key in this.form){

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Models\Expense;
+use App\Models\MyCompany;
 use Illuminate\Support\Facades\DB;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class ExpenseController extends Controller
+class MyCompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,23 +17,9 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        request()->validate([
-            'direction' => ['in:asc,desc'],
-            'field' => ['in:expense_type,account']
-        ]);
-        
-        $query = Expense::query();
-
-        if(request('search')) {
-            $query->Where('expense_type','LIKE','%'.request('search').'%')
-            ->orWhere('account','LIKE','%'.request('search').'%');
-        }
-        if(request()->has(['field', 'direction'])) {
-            $query->orderBy(request('field'), request('direction'));
-        }
-        // dd($query);
-        return Inertia::render('ExpenseViews/Expenses', [
-            'expenses' => $query->paginate(30)->withQueryString()
+        $query = MyCompany::query();
+        return Inertia::render('CompanyViews/MyCompanies', [
+            'companies' => $query->paginate(30)->withQueryString()
         ]);
     }
 
@@ -55,13 +41,16 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        Expense::create(
+        MyCompany::create(
             $request->validate([
-                'expense_type' => 'required|unique:expenses',
-                'account' => 'required|max:50',
+                'name' => 'required|unique:my_companies|max:25',
+                'phone_number' => 'required|max:25',
+                'email' => 'required|email',
+                'address' => 'required|max:150',
+                'bank_account' => 'max:220',
             ])
         );
-        return Redirect::route('expenses.index')->with('message', 'Expense Registered Successfully');
+        return Redirect::route('my-companies.index')->with('message', 'Company Registered Successfully');
     }
 
     /**
@@ -95,18 +84,21 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $expense = null;
+        $company = null;
         try{
-            $expense = Expense::findOrFail($id);
+            $company = MyCompany::findOrFail($id);
         }catch(ModelNotFoundException $e){
-            return Redirect::route('expenses.index')->with('error', 'Oops...Expense Does Not exist!', );
+            return Redirect::route('my-companies.index')->with('error', 'Oops...Company Does Not exist!', );
         }
         $request->validate([
-            'expense_type' => 'required|exists:expenses',
-            'account' => 'required|max:50',
+            'name' => 'required|exists:my_companies',
+            'phone_number' => 'required|max:25',
+            'email' => 'required|email',
+            'address' => 'required|max:150',
+            'bank_account' => 'max:220',
         ]);
-        $expense->update($request->all());
-        return Redirect::route('expenses.index')->with('message', 'Expense Details Edited Successfully');
+        $company->update($request->all());
+        return Redirect::route('my-companies.index')->with('message', 'Company Details Edited Successfully');
     }
 
     /**
@@ -117,13 +109,13 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        $expense = null;
+        $company = null;
         try{
-            $expense = Expense::findOrFail($id);
+            $company = MyCompany::findOrFail($id);
         }catch(ModelNotFoundException $e){
-            return Redirect::route('expenses.index')->with('error', 'Oops...Expense Does Not exist!', );
+            return Redirect::route('my-companies.index')->with('error', 'Oops...Company Does Not exist!', );
         }
-        $expense->delete();
-        return Redirect::route('expenses.index')->with('message', 'Expense has been deleted!', );
+        $company->delete();
+        return Redirect::route('my-companies.index')->with('message', 'Company has been deleted!', );
     }
 }

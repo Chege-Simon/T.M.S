@@ -38,7 +38,7 @@ class RegionController extends Controller
         }
         // dd($query);
         return Inertia::render('RegionViews/Regions', [
-            'regions' => $query->paginate(4)->withQueryString(),
+            'regions' => $query->paginate(30)->withQueryString(),
             'clients' => $clients
         ]);
     }

@@ -85,7 +85,7 @@
                         <td>{{ bill.date }}</td>
                         <td>{{ bill.expense.expense_type }}</td>
                         <td>{{ bill.truck.number_plate }}</td>
-                        <td>Ksh {{ bill.amount }}</td>
+                        <td>Ksh {{ formatPrice(bill.amount) }}</td>
                         <td class="d-flex justify-content-center">
                             <span class="text-primary">
                                 <i class="fa fa-wrench fa-fw mx-1" @click="editModal(bill)" data-toggle="tooltip" data-placement="top" title="Edit"></i>
@@ -258,6 +258,10 @@
             }
         },
         methods: {
+            formatPrice(value) {
+                let val = (value/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            },
             deleteBill(id){
                 this.$inertia.delete('/bills/'+id);
             },

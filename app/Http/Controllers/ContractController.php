@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Models\Expense;
+use App\Models\Contract;
+use App\Models\MyCompany;
 use Illuminate\Support\Facades\DB;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class ExpenseController extends Controller
+
+class ContractController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,23 +19,10 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        request()->validate([
-            'direction' => ['in:asc,desc'],
-            'field' => ['in:expense_type,account']
-        ]);
-        
-        $query = Expense::query();
-
-        if(request('search')) {
-            $query->Where('expense_type','LIKE','%'.request('search').'%')
-            ->orWhere('account','LIKE','%'.request('search').'%');
-        }
-        if(request()->has(['field', 'direction'])) {
-            $query->orderBy(request('field'), request('direction'));
-        }
-        // dd($query);
-        return Inertia::render('ExpenseViews/Expenses', [
-            'expenses' => $query->paginate(30)->withQueryString()
+        $query = Contract::query()->with('company');
+        return Inertia::render('ContractViews/Contracts', [
+            'contracts' => $query->paginate(30)->withQueryString(),
+            'companies' => MyCompany::all()
         ]);
     }
 
@@ -55,13 +44,20 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        Expense::create(
+        // dd($request);
+        Contract::create(
             $request->validate([
-                'expense_type' => 'required|unique:expenses',
-                'account' => 'required|max:50',
+                'name' => 'required|unique:contracts|max:255',
+                'description' => 'required|max:255',
+                'company_id' => 'required|exists:my_companies,id',
+                'date' => 'required',
+                'period' => 'max:220',
+                'terms' => 'required',
             ])
         );
-        return Redirect::route('expenses.index')->with('message', 'Expense Registered Successfully');
+        // dd($request);
+        // Contract::create($request->all());
+        return Redirect::route('contracts.index')->with('message', 'Contract Registered Successfully');
     }
 
     /**
@@ -95,18 +91,22 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $expense = null;
+        $contract = null;
         try{
-            $expense = Expense::findOrFail($id);
+            $contract = Contract::findOrFail($id);
         }catch(ModelNotFoundException $e){
-            return Redirect::route('expenses.index')->with('error', 'Oops...Expense Does Not exist!', );
+            return Redirect::route('contracts.index')->with('error', 'Oops...Contract Does Not exist!', );
         }
         $request->validate([
-            'expense_type' => 'required|exists:expenses',
-            'account' => 'required|max:50',
+            'name' => 'required|exists:contracts',
+            'description' => 'required|max:255',
+            'company_id' => 'required|exists:my_companies,id',
+            'date' => 'required',
+            'period' => 'max:220',
+            'terms' => 'required',
         ]);
-        $expense->update($request->all());
-        return Redirect::route('expenses.index')->with('message', 'Expense Details Edited Successfully');
+        $contract->update($request->all());
+        return Redirect::route('contracts.index')->with('message', 'Contract Details Edited Successfully');
     }
 
     /**
@@ -117,13 +117,13 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        $expense = null;
+        $contract = null;
         try{
-            $expense = Expense::findOrFail($id);
+            $contract = Contract::findOrFail($id);
         }catch(ModelNotFoundException $e){
-            return Redirect::route('expenses.index')->with('error', 'Oops...Expense Does Not exist!', );
+            return Redirect::route('contracts.index')->with('error', 'Oops...Contract Does Not exist!', );
         }
-        $expense->delete();
-        return Redirect::route('expenses.index')->with('message', 'Expense has been deleted!', );
+        $contract->delete();
+        return Redirect::route('contracts.index')->with('message', 'Contract has been deleted!', );
     }
 }

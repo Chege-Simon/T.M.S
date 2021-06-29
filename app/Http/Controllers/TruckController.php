@@ -36,7 +36,7 @@ class TruckController extends Controller
         }
         // dd($query);
         return Inertia::render('TruckViews/Trucks', [
-            'trucks' => $query->paginate(4)->withQueryString()
+            'trucks' => $query->paginate(30)->withQueryString()
         ]);
     }
 

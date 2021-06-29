@@ -1,56 +1,62 @@
+<style media="print" scoped>
+    @media all{
+        .border{
+        border: 1px solid #000 !important;
+        }
+        .table-bordered th,
+        .table-bordered td {
+        border: 1px solid #000 !important;
+        }
+    }
+</style>
 <template>
-<section class="content">
+<section class="content" id="content">
       <div class="container-fluid">
-        <div class="row">
+        <div class="row h6">
           <div class="col-12">
-            <div class="callout callout-info no-print">
-              <h5><i class="fas fa-info"></i> Note:</h5>
-              This page has been enhanced for printing. Click the print button at the bottom of the invoice to test.
-            </div>
-            <div class="invoice p-3 mb-3">
+            <div class="invoice p-1 m-1">
                         <!-- title row -->
                 <div class="row">
                 <div class="col-12">
-                    <h4>
+                    <h2>
                     <i class="fas fa-file"></i> Invoice
                     <small class="float-right">Date: {{ format_date(invoice.end) }}</small>
-                    </h4>
+                    </h2>
                 </div>
                 <!-- /.col -->
                 </div>
-                <br>
-                <br>
                 <!-- info row -->
-                <div class="row invoice-info border">
-                <div class="col-sm-4 invoice-col">
-                    From
-                  <address>
-                    <strong>{{ invoice.contract.company_id}}</strong><br>
-                    {{ invoice.contract.company_id}}<br>
-                    Phone: {{ invoice.contract.company_id }}<br>
-                    Email: {{ invoice.contract.company_id }}
-                  </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-6 invoice-col">
-                    To
+                <div class="row border">
+                    <div class="col-sm-4">
+                        From
                     <address>
-                    <strong>{{invoice.client.name}}</strong><br>
-                    {{invoice.client.address}}<br>
-                    Phone: {{invoice.client.phone_number}}<br>
-                    Email: {{invoice.client.email}}
+                        <strong>Francis Chege Njenga</strong><br>
+                        1462-0232, RUIRU<br>
+                        Phone: 0722626879<br>
+                        Email: fchege2015ios@gmail.com
                     </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-2 invoice-col">
-                    <b>Invoice #{{invoice.id}}</b><br>
-                    <p><b>Terms: </b>{{ invoice.contract.terms }} days</p>
-                    <p>Truck Reg. No: <b>{{ invoice.truck.number_plate }}</b></p>
-                    <b>Payment Due:</b> 2/22/2014<br>
-                </div>
-                <!-- /.col -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6">
+                        To
+                        <address>
+                        <strong>{{invoice.client.name}}</strong><br>
+                        {{invoice.client.address}}<br>
+                        Phone: {{invoice.client.phone_number}}<br>
+                        Email: {{invoice.client.email}}
+                        </address>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-2">
+                        <b>Invoice #{{invoice.id}}</b><br>
+                        <p><b>Terms: </b>{{ invoice.contract.terms }} days</p>
+                        <p>Truck Reg. No: <b>{{ invoice.truck.number_plate }}</b></p>
+                        <b>Payment Due:</b> 2/22/2014<br>
+                    </div>
+                    <!-- /.col -->
                 </div>
                 <!-- /.row -->
+                <br>
                 <!-- Table row -->
                 <div class="row">
                 <div class="col-12 table-responsive">
@@ -76,8 +82,6 @@
                     </table>
                 </div>
                 </div> 
-                <br>
-                <br>
                 <div class="row">
                 <!-- accepted payments column -->
                 <div class="col-8">
@@ -100,7 +104,7 @@
                 <!-- this row will not appear when printing -->
                 <div class="row no-print">
                 <div class="col-12">
-                    <a @click="print(invoice.id)" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
+                    <a @click="print" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
                 </div>
                 </div>
             </div>    
@@ -111,14 +115,12 @@
     </section>  
 </template>
 <script>
-    import AppLayout from '@/Layouts/AppLayout'
     import Pagination from '@/Jetstream/Pagination'
     import moment from 'moment';
     export default {
         components: {
-            AppLayout,
             Pagination,
-        },layout: AppLayout,
+        },
         props:{
             invoice: Object,
             track_records: Object,
@@ -129,8 +131,9 @@
                     return moment(String(value)).format('DD-MM-YYYY')
                 }
             },
-            print(id){
-                this.$inertia.get('/invoice/'+id);
+            print(){
+            // window.addEventListener("load",);
+             window.print();
             }
         },
     }

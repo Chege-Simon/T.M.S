@@ -7,9 +7,11 @@ use App\Models\Truck;
 use App\Models\TrackRecord;
 use App\Models\Invoice;
 use App\Models\Client;
+use App\Models\Contract;
 use Illuminate\Support\Facades\DB;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
+
 
 class InvoiceController extends Controller
 {
@@ -23,13 +25,14 @@ class InvoiceController extends Controller
         $trucks = Truck::all();
         $trackRecords = TrackRecord::with('truck')->with('region')->get();
         $clients = Client::all();
+        $contracts = Contract::all();
 
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:begin,end,total,status,truck_id,client_id,id']
+            'field' => ['in:begin,end,total,status,truck_id,client_id,contract_id,id']
         ]);
         
-        $query = Invoice::query()->with('truck')->with('track_records')->with('client');
+        $query = Invoice::query()->with('truck')->with('track_records')->with('client')->with('contract');
 
         if(request('search')) {
             $searchTerm = request('search');
@@ -45,10 +48,11 @@ class InvoiceController extends Controller
             $query->orderBy(request('field'), request('direction'));
         }
         return Inertia::render('InvoiceViews/Invoices',[
-            'invoices' => $query->paginate(4)->withQueryString(),
+            'invoices' => $query->paginate(30)->withQueryString(),
             'trucks' => $trucks,
             'trackRecords' => $trackRecords,
             'clients' => $clients,
+            'contracts' => $contracts,
         ]);
     }
 
@@ -70,12 +74,14 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+        // TO DO add company and contracts
         $validated = $request->validate([
             'begin' => 'required|date',
             'end' => 'required|date',
             'status' => 'required|in:Paid,Pending,Cancelled',
             'truck_id' => 'required|integer|exists:trucks,id',
             'client_id' => 'required|integer|exists:clients,id',
+            'contract_id' => 'required|exists:contracts,id'
         ]);
         $track_records = TrackRecord::whereBetween('date',[$request->begin,$request->end])->with('region')
                                         ->where('client_id','LIKE',$request->client_id)
@@ -90,6 +96,7 @@ class InvoiceController extends Controller
         $invoice->status = $request->status;
         $invoice->truck_id = $request->truck_id;
         $invoice->client_id = $request->client_id;
+        $invoice->contract_id = $request->contract_id;
         $invoice->total = $total;
         try{
             $invoice->save();
@@ -111,7 +118,7 @@ class InvoiceController extends Controller
         $invoice = null;
         try{
             // $invoice = Invoice::findOrFail($id);
-            $invoice = Invoice::with('truck')->with('track_records')->with('client')->get()->find($id);
+            $invoice = Invoice::with('truck')->with('track_records')->with('client')->with('contract')->get()->find($id);
         }catch(ModelNotFoundException $e){
             return Redirect::route('invoices.index')->with('error', 'Oops...Invoice Does Not exist!', );
         }
@@ -137,9 +144,29 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function print($id)
     {
-        //
+        $invoice = null;
+        try{
+            // $invoice = Invoice::findOrFail($id);
+            $invoice = Invoice::with('truck')->with('track_records')->with('client')->with('contract')->get()->find($id);
+        }catch(ModelNotFoundException $e){
+            return Redirect::route('invoices.index')->with('error', 'Oops...Invoice Does Not exist!', );
+        }
+        $track_records = TrackRecord::whereBetween('date',[$invoice->begin,$invoice->end])->with('region')
+                                        ->where('client_id','LIKE',$invoice->client_id)
+                                        ->where('truck_id','LIKE',$invoice->truck_id)
+                                        ->with('region')->get();
+        foreach ($track_records as $record) {
+            $record->invoice_id = $id;
+            $record->save();
+        }
+        // $query = $invoice->with('truck')->with('track_records')->with('client');
+        // dd($invoice);
+        return Inertia::render('InvoiceViews/PrintInvoice',[
+            'invoice' => $invoice,
+            'track_records' => $track_records,
+        ]);
     }
 
     /**

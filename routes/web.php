@@ -13,6 +13,8 @@ use App\Http\Controllers\PayBillController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CapitalController;
+use App\Http\Controllers\MyCompanyController;
+use App\Http\Controllers\ContractController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +84,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::post('/bills/{id}', [PayBillController::class, 'update'])->name('bills.update');
     Route::delete('/bills/{id}', [PayBillController::class, 'destroy'])->name('bills.destroy');
     // invoices routes
+    Route::get('/invoice/{id}', [InvoiceController::class, 'print'])->name('invoices.print');
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
     Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
     Route::post('/invoices/{id}', [InvoiceController::class, 'update'])->name('invoices.update');
@@ -96,4 +99,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::post('/report', [InvoiceController::class, 'store'])->name('report.store');
     Route::post('/report/{id}', [InvoiceController::class, 'update'])->name('report.update');
     Route::get('/report/{id}', [InvoiceController::class, 'show'])->name('report.show');
+    // my-companies routes
+    Route::get('/my-companies', [MyCompanyController::class, 'index'])->name('my-companies.index');
+    Route::post('/my-companies', [MyCompanyController::class, 'store'])->name('my-companies.store');
+    Route::post('/my-companies/{id}', [MyCompanyController::class, 'update'])->name('my-companies.update');
+    Route::get('/my-companies/{id}', [MyCompanyController::class, 'show'])->name('my-companies.show');
+    // contracts routes
+    Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.index');
+    Route::post('/contracts', [ContractController::class, 'store'])->name('contracts.store');
+    Route::post('/contracts/{id}', [ContractController::class, 'update'])->name('contracts.update');
+    Route::get('/contracts/{id}', [ContractController::class, 'show'])->name('contracts.show');
 });

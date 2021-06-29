@@ -45,7 +45,7 @@ class TrackRecordController extends Controller
         }
         // dd($query);
         return Inertia::render('TrackRecordViews/TrackRecords', [
-            'track_records' => $query->paginate(4)->withQueryString(),
+            'track_records' => $query->paginate(30)->withQueryString(),
             'trucks' => $trucks,
             'regions' => $regions,
             'clients' => $clients,

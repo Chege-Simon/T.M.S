@@ -39,7 +39,7 @@ class PayBillController extends Controller
         }
         // dd($query);
         return Inertia::render('BillsViews/Bills', [
-            'bills' => $query->paginate(4)->withQueryString(),
+            'bills' => $query->paginate(30)->withQueryString(),
             'trucks' => $trucks,
             'expenses' => $expenses,
         ]);

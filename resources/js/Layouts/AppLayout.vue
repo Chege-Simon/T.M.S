@@ -171,6 +171,27 @@
                 </li>
               </ul>
             </li>
+            <li class="nav-item has-treeview mt-2">
+              <a class="nav-link bg-danger rounded">
+                  <i class="fa fa-building nav-icon"></i>
+                  <p>Company</p>
+                  <i class="right fas fa-angle-left"></i>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item ml-3">
+                    <a href="/my-companies" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>My Companies</p>
+                    </a>
+                </li>
+                <li class="nav-item ml-3">
+                    <a href="/contracts" class="nav-link">
+                        <i class="far fa-circle nav-icon" aria-hidden="true"></i>
+                        <p>Contracts</p>
+                    </a>
+                </li>
+              </ul>
+            </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->

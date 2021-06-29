@@ -35,7 +35,7 @@ class ClientController extends Controller
         }
         // dd($query);
         return Inertia::render('ClientViews/Clients', [
-            'clients' => $query->paginate(4)->withQueryString()
+            'clients' => $query->paginate(30)->withQueryString()
         ]);
     }
 
