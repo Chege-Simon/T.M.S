@@ -8,6 +8,7 @@ use App\Models\TrackRecord;
 use App\Models\Invoice;
 use App\Models\Client;
 use App\Models\Contract;
+use App\Models\MyCompany;
 use Illuminate\Support\Facades\DB;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -26,6 +27,7 @@ class InvoiceController extends Controller
         $trackRecords = TrackRecord::with('truck')->with('region')->get();
         $clients = Client::all();
         $contracts = Contract::all();
+        $companies = MyCompany::all();
 
         request()->validate([
             'direction' => ['in:asc,desc'],
@@ -53,6 +55,7 @@ class InvoiceController extends Controller
             'trackRecords' => $trackRecords,
             'clients' => $clients,
             'contracts' => $contracts,
+            'companies' => $companies,
         ]);
     }
 
@@ -115,6 +118,7 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
+        $companies = MyCompany::all();
         $invoice = null;
         try{
             // $invoice = Invoice::findOrFail($id);
@@ -135,6 +139,7 @@ class InvoiceController extends Controller
         return Inertia::render('InvoiceViews/Invoice',[
             'invoice' => $invoice,
             'track_records' => $track_records,
+            'companies' => $companies,
         ]);
     }
 
@@ -146,6 +151,7 @@ class InvoiceController extends Controller
      */
     public function print($id)
     {
+        $companies = MyCompany::all();
         $invoice = null;
         try{
             // $invoice = Invoice::findOrFail($id);
@@ -166,6 +172,7 @@ class InvoiceController extends Controller
         return Inertia::render('InvoiceViews/PrintInvoice',[
             'invoice' => $invoice,
             'track_records' => $track_records,
+            'companies' => $companies,
         ]);
     }
 

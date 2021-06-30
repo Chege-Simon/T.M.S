@@ -1,0 +1,165 @@
+<template>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fa fa-line-chart mr-1"></i>
+                  Profit and Loss Report
+                </h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <table class="table table-bordered">
+                <thead>
+                    <tr>
+                      <th colspan="3">Profit and Loss Statement of: {{ thisYear }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <th>INCOME</th>
+                      <td></td>
+                      <th>{{ format_number(income) }}</th>
+                    </tr>
+                    <tr>
+                      <th>>>Services rendered</th>
+                      <td>{{ format_number(income) }}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                        <th>EXPENSES</th>
+                        <td></td>
+                        <th>{{ format_number(totalExpenses) }}</th>
+                    </tr>
+                    <tr v-for="(expense,key) in expenses" :key="key">
+                        <th>>>{{ key }}</th>
+                        <td>{{ format_number(expense) }}</td>
+                        <td></td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                      <th>NET PROFIT</th>
+                      <td></td>
+                      <th>{{ format_number(PorL)}}</th>
+                    </tr>
+                </tbody>
+                </table>
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fa fa-files-o mr-1"></i>
+                  Ledger
+                </h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+</template>
+<script>
+import AppLayout from '@/Layouts/AppLayout'
+import moment from 'moment';
+export default {
+    components: {
+        AppLayout,
+    },layout: AppLayout,
+    props:{
+        track_records: Object,
+        bills: Object,
+        capitals: Object,
+        invoices: Object,
+    }, 
+    data(){
+
+    },
+    computed:{
+      thisYear(){
+        return new Date().getFullYear();
+      },
+      expenses(){
+          let expenses = new Set();
+          let dict =  {};
+          const the_bills = this.bills;
+          for(let bill in the_bills){
+              expenses.add(the_bills[bill].expense.account);
+          }
+          
+          for(let key of expenses){
+              dict[key] = 0;
+          }
+          for(let key of expenses){
+              for(const bill in the_bills){
+                  if(key == the_bills[bill].expense.account){
+                      let hold = dict[key];
+                      hold+=the_bills[bill].amount
+                      dict[key] = hold;
+                  }
+              }
+          }
+          return dict;
+      },
+      totalExpenses(){
+        let total = 0;
+        const dict = this.expenses;
+          for(let key in dict){
+              total += dict[key];
+        }
+        return total;
+      },
+      income(){
+          const allInvoices = this.invoices;
+          let income = 0;
+          for(let invoice in allInvoices){
+          console.log(this.invoices);
+            income += allInvoices[invoice].total;
+          }
+          return income;
+        },
+        PorL(){
+          return this.income + this.totalExpenses;
+        }
+    },
+    methods:{
+      format_number(value){
+        // Create our number formatter.
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'KSh',
+
+          // These options are needed to round to whole numbers if that's what you want.
+          //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+          //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+        });
+
+        return formatter.format(value); /* $2,500.00 */
+      }
+    },
+    mounted(){
+    }
+  }
+</script>

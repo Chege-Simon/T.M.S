@@ -85,7 +85,7 @@
                         <td>{{ capital.asset_type }}</td>
                         <td>{{ capital.description }}</td>
                         <td>{{ capital.date }}</td>
-                        <td>{{ capital.amount }}</td>
+                        <td>{{ format_number(capital.amount) }}</td>
                         <td class="d-flex justify-content-center">
                             <span class="text-primary">
                                 <i class="fa fa-wrench fa-fw mx-1" @click="editModal(capital)" data-toggle="tooltip" data-placement="top" title="Edit"></i>
@@ -251,6 +251,19 @@
             }
         },
         methods: {
+            format_number(value){
+                // Create our number formatter.
+                const formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'KSh',
+
+                // These options are needed to round to whole numbers if that's what you want.
+                //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+                //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+                });
+
+                return formatter.format(value); /* $2,500.00 */
+            },
             deleteCapital(id){
                 this.$inertia.delete('/capital/'+id);
             },

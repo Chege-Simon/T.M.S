@@ -17,27 +17,27 @@
             <div class="invoice p-1 m-1">
                         <!-- title row -->
                 <div class="row">
-                <div class="col-12">
-                    <h2>
-                    <i class="fas fa-file"></i> Invoice
-                    <small class="float-right">Date: {{ format_date(invoice.end) }}</small>
-                    </h2>
-                </div>
+                    <div class="col-12">
+                        <h2>
+                        <i class="fas fa-file"></i> Invoice
+                        <small class="float-right">Date: {{ format_date(invoice.end) }}</small>
+                        </h2>
+                    </div>
                 <!-- /.col -->
                 </div>
                 <!-- info row -->
-                <div class="row border">
-                    <div class="col-sm-4">
+                <div class="row border mx-1">
+                    <div class="col-4">
                         From
                     <address>
-                        <strong>Francis Chege Njenga</strong><br>
-                        1462-0232, RUIRU<br>
-                        Phone: 0722626879<br>
-                        Email: fchege2015ios@gmail.com
+                        <strong>{{ theCompany.name }}</strong><br>
+                        {{ theCompany.address }}<br>
+                        Phone: {{ theCompany.phone_number }}<br>
+                        Email: {{ theCompany.email }}
                     </address>
                     </div>
                     <!-- /.col -->
-                    <div class="col-sm-6">
+                    <div class="col-6">
                         To
                         <address>
                         <strong>{{invoice.client.name}}</strong><br>
@@ -47,11 +47,11 @@
                         </address>
                     </div>
                     <!-- /.col -->
-                    <div class="col-sm-2">
+                    <div class="col-2">
                         <b>Invoice #{{invoice.id}}</b><br>
                         <p><b>Terms: </b>{{ invoice.contract.terms }} days</p>
                         <p>Truck Reg. No: <b>{{ invoice.truck.number_plate }}</b></p>
-                        <b>Payment Due:</b> 2/22/2014<br>
+                        <b>Payment Due: </b>{{  due}}<br>
                     </div>
                     <!-- /.col -->
                 </div>
@@ -76,7 +76,7 @@
                                 <td>{{ record.track_record_receipt_number }}</td>
                                 <td>{{ record.destination }}</td>
                                 <td>{{ record.region.name }}</td>
-                                <td>{{ record.region.pricing }}</td>
+                                <td>{{ format_number(record.region.pricing) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -92,7 +92,7 @@
                     <table class="table table-bordered">
                         <tr>
                         <th>TOTAL:</th>
-                        <td>KSh {{ invoice.total }}</td>
+                        <td>{{ format_number(invoice.total) }}</td>
                         </tr>
                     </table>
                     </div>
@@ -124,8 +124,41 @@
         props:{
             invoice: Object,
             track_records: Object,
+            companies: Object,
+        },
+        computed:{
+            due(){
+                const end = new Date(this.invoice.end);
+                // const date = new Date();
+                const due = end.setDate(end.getDate() + this.invoice.contract.terms);
+                const dueDate = new Date(due);
+                return  moment(dueDate , moment.ISO_8601).format('DD-MM-YYYY');
+            },
+            theCompany(){
+                let id = this.invoice.contract.company_id;
+                let the_company = null;
+                for(const company in this.companies){
+                    if(this.companies[company].id == id){
+                        the_company = this.companies[company];
+                    }
+                }
+                return the_company;
+            }
         },
         methods: { 
+            format_number(value){
+                // Create our number formatter.
+                const formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'KSh',
+
+                // These options are needed to round to whole numbers if that's what you want.
+                //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+                //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+                });
+
+                return formatter.format(value); /* $2,500.00 */
+            },
             format_date(value){
                 if (value) {
                     return moment(String(value)).format('DD-MM-YYYY')

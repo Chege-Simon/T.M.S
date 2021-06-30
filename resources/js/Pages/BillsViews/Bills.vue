@@ -85,7 +85,7 @@
                         <td>{{ bill.date }}</td>
                         <td>{{ bill.expense.expense_type }}</td>
                         <td>{{ bill.truck.number_plate }}</td>
-                        <td>Ksh {{ formatPrice(bill.amount) }}</td>
+                        <td>Ksh {{ format_number(bill.amount) }}</td>
                         <td class="d-flex justify-content-center">
                             <span class="text-primary">
                                 <i class="fa fa-wrench fa-fw mx-1" @click="editModal(bill)" data-toggle="tooltip" data-placement="top" title="Edit"></i>
@@ -258,10 +258,23 @@
             }
         },
         methods: {
-            formatPrice(value) {
-                let val = (value/1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            format_number(value){
+                // Create our number formatter.
+                const formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'KSh',
+
+                // These options are needed to round to whole numbers if that's what you want.
+                //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+                //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+                });
+
+                return formatter.format(value); /* $2,500.00 */
             },
+            // formatPrice(value) {
+            //     let val = (value/1).toFixed(2).replace('.', ',')
+            //     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            // },
             deleteBill(id){
                 this.$inertia.delete('/bills/'+id);
             },

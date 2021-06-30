@@ -15,6 +15,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CapitalController;
 use App\Http\Controllers\MyCompanyController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\FinanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,10 +96,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::post('/capital/{id}', [CapitalController::class, 'update'])->name('capital.update');
     Route::get('/capital/{id}', [CapitalController::class, 'show'])->name('capital.show');
     // report routes
-    Route::get('/report', [InvoiceController::class, 'index'])->name('report.index');
-    Route::post('/report', [InvoiceController::class, 'store'])->name('report.store');
-    Route::post('/report/{id}', [InvoiceController::class, 'update'])->name('report.update');
-    Route::get('/report/{id}', [InvoiceController::class, 'show'])->name('report.show');
+    Route::get('/reports', [FinanceController::class, 'index'])->name('report.index');
+    // Route::post('/report', [InvoiceController::class, 'store'])->name('report.store');
+    // Route::post('/report/{id}', [InvoiceController::class, 'update'])->name('report.update');
+    // Route::get('/report/{id}', [InvoiceController::class, 'show'])->name('report.show');
     // my-companies routes
     Route::get('/my-companies', [MyCompanyController::class, 'index'])->name('my-companies.index');
     Route::post('/my-companies', [MyCompanyController::class, 'store'])->name('my-companies.store');
@@ -109,4 +110,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::post('/contracts', [ContractController::class, 'store'])->name('contracts.store');
     Route::post('/contracts/{id}', [ContractController::class, 'update'])->name('contracts.update');
     Route::get('/contracts/{id}', [ContractController::class, 'show'])->name('contracts.show');
+    // // ledger and profit/loss
+    // Route::get('/ledger',[FinanceController::class, 'ledger'])->name('ledger');
+    // Route::get('/balance',[FinanceController::class, 'balance'])->name('balance');
 });
