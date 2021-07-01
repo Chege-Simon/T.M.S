@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use NascentAfrica\Jetstrap\JetstrapFacade;
+// use NascentAfrica\Jetstrap\JetstrapFacade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        JetstrapFacade::useAdminLte3();
+        // JetstrapFacade::useAdminLte3();
         
         Paginator::useBootstrap();
     }
