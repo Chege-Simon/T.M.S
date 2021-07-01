@@ -76,7 +76,7 @@ class TrackRecordController extends Controller
                 'region_id' => 'required|exists:regions,id',
                 'destination' => 'required|max:25',
                 'client_id' => 'required|exists:clients,id',
-                'track_record_receipt_number' => 'required|max:25',
+                'track_record_receipt_number' => 'max:25',
                 'date' => 'required',
 
             ])

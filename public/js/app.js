@@ -19623,6 +19623,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -19632,10 +19638,263 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     trucks: Object,
     clients: Object,
-    trackRecords: Object
+    track_records: Object,
+    bills: Object,
+    capitals: Object,
+    invoices: Object
   },
-  data: function data() {
-    return {};
+  computed: {
+    when: function when() {
+      var date = new Date().getMonth();
+      var when = '';
+
+      switch (date) {
+        case 0:
+          when = 'Jan';
+          break;
+
+        case 1:
+          when = 'Feb';
+          break;
+
+        case 2:
+          when = 'Mar';
+          break;
+
+        case 3:
+          when = 'Apr';
+          break;
+
+        case 4:
+          when = 'May';
+          break;
+
+        case 5:
+          when = 'Jun';
+          break;
+
+        case 6:
+          when = 'Jul';
+          break;
+
+        case 7:
+          when = 'Aug';
+          break;
+
+        case 8:
+          when = 'Sep';
+          break;
+
+        case 9:
+          when = 'Oct';
+          break;
+
+        case 10:
+          when = 'Nov';
+          break;
+
+        case 11:
+          when = 'Dec';
+          break;
+
+        default:
+          break;
+      }
+
+      when = when + " " + new Date().getFullYear();
+      return when;
+    },
+    expenses: function expenses() {
+      var expenses = new Set();
+      var dict = {};
+      var the_bills = this.bills;
+
+      for (var bill in the_bills) {
+        expenses.add(the_bills[bill].expense.account);
+      }
+
+      var _iterator = _createForOfIteratorHelper(expenses),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var key = _step.value;
+          dict[key] = 0;
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      var _iterator2 = _createForOfIteratorHelper(expenses),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var _key = _step2.value;
+
+          for (var _bill in the_bills) {
+            if (_key == the_bills[_bill].expense.account) {
+              var hold = dict[_key];
+              hold += the_bills[_bill].amount;
+              dict[_key] = hold;
+            }
+          }
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      return dict;
+    },
+    totalExpenses: function totalExpenses() {
+      var total = 0;
+      var dict = this.expenses;
+
+      for (var key in dict) {
+        total += dict[key];
+      }
+
+      return total;
+    },
+    income: function income() {
+      var records = this.track_records;
+      var income = 0;
+
+      for (var record in records) {
+        income += records[record].region.pricing;
+      }
+
+      return income;
+    },
+    PorL: function PorL() {
+      return (this.income - this.totalExpenses) / this.income * 100;
+    },
+    records: function records() {
+      var track_records = this.track_records;
+      var bills = this.bills;
+      var capitals = this.capitals;
+      var tracking = {};
+
+      var _loop = function _loop(record) {
+        var transaction = [];
+        var day = track_records[record].date;
+        var data = {
+          'details': track_records[record].client.name + ": " + track_records[record].truck.number_plate + " -- " + track_records[record].destination + " @ " + track_records[record].region.name,
+          'cash': track_records[record].region.pricing,
+          'type': 'credit'
+        };
+
+        if (tracking.hasOwnProperty(day)) {
+          tracking[day].forEach(function (value) {
+            transaction.push(value);
+          });
+          transaction.push(data);
+          tracking[day] = transaction;
+        } else {
+          transaction.push(data);
+          tracking[day] = transaction;
+        }
+      };
+
+      for (var record in track_records) {
+        _loop(record);
+      }
+
+      var _loop2 = function _loop2(bill) {
+        var transaction = [];
+        var data = {
+          'details': bills[bill].expense.expense_type + " for " + bills[bill].truck.number_plate,
+          'cash': bills[bill].amount,
+          'type': 'debit'
+        };
+
+        if (tracking.hasOwnProperty(bills[bill].date)) {
+          tracking[bills[bill].date].forEach(function (value) {
+            transaction.push(value);
+          });
+          transaction.push(data);
+          tracking[bills[bill].date] = transaction;
+        } else {
+          transaction.push(data);
+          tracking[bills[bill].date] = transaction;
+        }
+      };
+
+      for (var bill in bills) {
+        _loop2(bill);
+      }
+
+      var _loop3 = function _loop3(capital) {
+        var transaction = [];
+        var data = {
+          'details': capitals[capital].asset_type + ": " + capitals[capital].description,
+          'cash': capitals[capital].amount,
+          'type': 'credit'
+        };
+
+        if (tracking.hasOwnProperty(capitals[capital].date)) {
+          tracking[capitals[capital].date].forEach(function (value) {
+            transaction.push(value);
+          });
+          transaction.push(data);
+          tracking[capitals[capital].date] = transaction;
+        } else {
+          transaction.push(data);
+          tracking[capitals[capital].date] = transaction;
+        }
+      };
+
+      for (var capital in capitals) {
+        _loop3(capital);
+      }
+
+      var ordered = Object.keys(tracking).sort().reduce(function (obj, key) {
+        obj[key] = tracking[key];
+        return obj;
+      }, {});
+      return ordered;
+    },
+    balance: function balance() {
+      var records = this.records;
+      var balance = 0;
+
+      for (var record in records) {
+        for (var transaction in records[record]) {
+          var trans = records[record][transaction];
+
+          if (trans.type === 'credit') {
+            balance += trans.cash;
+          } else {
+            balance -= trans.cash;
+          }
+        }
+      } // console.log(balance);
+
+
+      return balance;
+    }
+  },
+  methods: {
+    format_number: function format_number(value) {
+      if (typeof value !== 'number') {
+        return null;
+      } // Create our number formatter.
+
+
+      var formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'KSh' // These options are needed to round to whole numbers if that's what you want.
+        //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+        //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+
+      });
+      return formatter.format(value);
+      /* $2,500.00 */
+    }
   },
   mounted: function mounted() {
     ;
@@ -20006,7 +20265,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     capitals: Object,
     invoices: Object
   },
-  data: function data() {},
+  data: function data() {
+    return {// balance: 0,
+    };
+  },
   computed: {
     thisYear: function thisYear() {
       return new Date().getFullYear();
@@ -20072,19 +20334,126 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var income = 0;
 
       for (var invoice in allInvoices) {
-        console.log(this.invoices);
         income += allInvoices[invoice].total;
       }
 
       return income;
     },
     PorL: function PorL() {
-      return this.income + this.totalExpenses;
+      return this.income - this.totalExpenses;
+    },
+    records: function records() {
+      var track_records = this.track_records;
+      var bills = this.bills;
+      var capitals = this.capitals;
+      var tracking = {};
+
+      var _loop = function _loop(record) {
+        var transaction = [];
+        var day = track_records[record].date;
+        var data = {
+          'details': track_records[record].client.name + ": " + track_records[record].truck.number_plate + " -- " + track_records[record].destination + " @ " + track_records[record].region.name,
+          'cash': track_records[record].region.pricing,
+          'type': 'credit'
+        };
+
+        if (tracking.hasOwnProperty(day)) {
+          tracking[day].forEach(function (value) {
+            transaction.push(value);
+          });
+          transaction.push(data);
+          tracking[day] = transaction;
+        } else {
+          transaction.push(data);
+          tracking[day] = transaction;
+        }
+      };
+
+      for (var record in track_records) {
+        _loop(record);
+      }
+
+      var _loop2 = function _loop2(bill) {
+        var transaction = [];
+        var data = {
+          'details': bills[bill].expense.expense_type + " for " + bills[bill].truck.number_plate,
+          'cash': bills[bill].amount,
+          'type': 'debit'
+        };
+
+        if (tracking.hasOwnProperty(bills[bill].date)) {
+          tracking[bills[bill].date].forEach(function (value) {
+            transaction.push(value);
+          });
+          transaction.push(data);
+          tracking[bills[bill].date] = transaction;
+        } else {
+          transaction.push(data);
+          tracking[bills[bill].date] = transaction;
+        }
+      };
+
+      for (var bill in bills) {
+        _loop2(bill);
+      }
+
+      var _loop3 = function _loop3(capital) {
+        var transaction = [];
+        var data = {
+          'details': capitals[capital].asset_type + ": " + capitals[capital].description,
+          'cash': capitals[capital].amount,
+          'type': 'credit'
+        };
+
+        if (tracking.hasOwnProperty(capitals[capital].date)) {
+          tracking[capitals[capital].date].forEach(function (value) {
+            transaction.push(value);
+          });
+          transaction.push(data);
+          tracking[capitals[capital].date] = transaction;
+        } else {
+          transaction.push(data);
+          tracking[capitals[capital].date] = transaction;
+        }
+      };
+
+      for (var capital in capitals) {
+        _loop3(capital);
+      }
+
+      var ordered = Object.keys(tracking).sort().reduce(function (obj, key) {
+        obj[key] = tracking[key];
+        return obj;
+      }, {});
+      return ordered;
+    },
+    balance: function balance() {
+      var records = this.records;
+      var balance = 0;
+
+      for (var record in records) {
+        for (var transaction in records[record]) {
+          var trans = records[record][transaction];
+
+          if (trans.type === 'credit') {
+            balance += trans.cash;
+          } else {
+            balance -= trans.cash;
+          }
+        }
+      } // console.log(balance);
+
+
+      return balance;
     }
   },
   methods: {
     format_number: function format_number(value) {
-      // Create our number formatter.
+      if (typeof value !== 'number') {
+        return null;
+      } // Create our number formatter.
+
+
       var formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'KSh' // These options are needed to round to whole numbers if that's what you want.
@@ -20096,7 +20465,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       /* $2,500.00 */
     }
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {// this.getRecords();
+  }
 });
 
 /***/ }),
@@ -27497,54 +27867,38 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 var _hoisted_2 = {
   "class": "row"
 };
-
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_3 = {
   "class": "col-lg-3 col-6"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" small box "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+};
+var _hoisted_4 = {
   "class": "small-box bg-info"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+};
+var _hoisted_5 = {
   "class": "inner"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("150"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("sup", {
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("sup", {
   style: {
     "font-size": "20px"
   }
-}, "%")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Profit/Loss")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "icon"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
-  "class": "ion ion-bag"
-})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
-  href: "#",
-  "class": "small-box-footer"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("More info "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
-  "class": "fas fa-arrow-circle-right"
-})])])], -1
+}, "%", -1
 /* HOISTED */
 );
 
-var _hoisted_4 = {
-  "class": "col-lg-3 col-6"
-};
-var _hoisted_5 = {
-  "class": "small-box bg-success"
-};
-var _hoisted_6 = {
-  "class": "inner"
-};
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Trips Current Month", -1
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Profit/Loss this Month", -1
 /* HOISTED */
 );
 
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "icon"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
-  "class": "ion ion-stats-bars"
+  "class": "ion ion-bag"
 })], -1
 /* HOISTED */
 );
 
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
-  href: "/track-record",
+  href: "#",
   "class": "small-box-footer"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("More info "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "fas fa-arrow-circle-right"
@@ -27556,26 +27910,26 @@ var _hoisted_10 = {
   "class": "col-lg-3 col-6"
 };
 var _hoisted_11 = {
-  "class": "small-box bg-warning"
+  "class": "small-box bg-success"
 };
 var _hoisted_12 = {
   "class": "inner"
 };
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Truck Registrations", -1
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Trips Current Month", -1
 /* HOISTED */
 );
 
 var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "icon"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
-  "class": "ion ion-person-add"
+  "class": "ion ion-stats-bars"
 })], -1
 /* HOISTED */
 );
 
 var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
-  href: "/trucks",
+  href: "/track-record",
   "class": "small-box-footer"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("More info "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "fas fa-arrow-circle-right"
@@ -27587,17 +27941,48 @@ var _hoisted_16 = {
   "class": "col-lg-3 col-6"
 };
 var _hoisted_17 = {
-  "class": "small-box bg-danger"
+  "class": "small-box bg-warning"
 };
 var _hoisted_18 = {
   "class": "inner"
 };
 
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Client Registrations", -1
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Truck Registrations", -1
 /* HOISTED */
 );
 
 var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "icon"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+  "class": "ion ion-person-add"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+  href: "/trucks",
+  "class": "small-box-footer"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("More info "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+  "class": "fas fa-arrow-circle-right"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_22 = {
+  "class": "col-lg-3 col-6"
+};
+var _hoisted_23 = {
+  "class": "small-box bg-danger"
+};
+var _hoisted_24 = {
+  "class": "inner"
+};
+
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Client Registrations", -1
+/* HOISTED */
+);
+
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "icon"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "ion ion-pie-graph"
@@ -27605,12 +27990,62 @@ var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
   href: "/clients",
   "class": "small-box-footer"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("More info "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "fas fa-arrow-circle-right"
 })], -1
+/* HOISTED */
+);
+
+var _hoisted_28 = {
+  "class": "card"
+};
+
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "card-header"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", {
+  "class": "card-title"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+  "class": "fa fa-files-o mr-1"
+}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Ledger ")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "card-tools"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  type: "button",
+  "class": "btn btn-tool",
+  "data-card-widget": "collapse"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+  "class": "fas fa-minus"
+})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  type: "button",
+  "class": "btn btn-tool",
+  "data-card-widget": "remove"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+  "class": "fas fa-times"
+})])])], -1
+/* HOISTED */
+);
+
+var _hoisted_30 = {
+  "class": "card-body"
+};
+var _hoisted_31 = {
+  "class": "table table-bordered"
+};
+var _hoisted_32 = {
+  colspan: "4"
+};
+
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Date"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Details"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Debit"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Credit")], -1
+/* HOISTED */
+);
+
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Balance", -1
+/* HOISTED */
+);
+
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, null, -1
 /* HOISTED */
 );
 
@@ -27622,13 +28057,45 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [_hoisted_1];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ./col "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" small box "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.trackRecords.length), 1
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" small box "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.PorL ? $options.PorL : null), 1
       /* TEXT */
-      ), _hoisted_7]), _hoisted_8, _hoisted_9])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ./col "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" small box "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.trucks.length), 1
+      ), _hoisted_6]), _hoisted_7]), _hoisted_8, _hoisted_9])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ./col "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" small box "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.track_records.length), 1
       /* TEXT */
-      ), _hoisted_13]), _hoisted_14, _hoisted_15])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ./col "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" small box "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.clients.length), 1
+      ), _hoisted_13]), _hoisted_14, _hoisted_15])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ./col "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" small box "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.trucks.length), 1
       /* TEXT */
-      ), _hoisted_19]), _hoisted_20, _hoisted_21])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ./col ")])];
+      ), _hoisted_19]), _hoisted_20, _hoisted_21])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ./col "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" small box "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.clients.length), 1
+      /* TEXT */
+      ), _hoisted_25]), _hoisted_26, _hoisted_27])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ./col ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card-header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("table", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", _hoisted_32, "Ledger of: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.when), 1
+      /* TEXT */
+      )]), _hoisted_33]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.records, function (record, key) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tbody", {
+          key: key,
+          style: {
+            "height": "400px",
+            "overflow-y": "scroll"
+          }
+        }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(record, function (transaction) {
+          return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tr", {
+            key: transaction
+          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(key), 1
+          /* TEXT */
+          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(transaction.details), 1
+          /* TEXT */
+          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.format_number(transaction.type === 'debit' ? transaction.cash : null)), 1
+          /* TEXT */
+          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.format_number(transaction.type === 'credit' ? transaction.cash : null)), 1
+          /* TEXT */
+          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <td >{{  transaction.type === 'debit' ? balance -= transaction.cash : balance += transaction.cash }}</td> ")]);
+        }), 128
+        /* KEYED_FRAGMENT */
+        ))]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tfoot", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [_hoisted_34, _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.format_number($options.balance < 0 ? $options.balance : null)), 1
+      /* TEXT */
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.format_number($options.balance > 0 ? $options.balance : null)), 1
+      /* TEXT */
+      )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card-body ")])];
     }),
     _: 1
     /* STABLE */
@@ -28837,7 +29304,41 @@ var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-md-7\"><div class=\"card\"><div class=\"card-header\"><h3 class=\"card-title\"><i class=\"fa fa-files-o mr-1\"></i> Ledger </h3><div class=\"card-tools\"><button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\"><i class=\"fas fa-minus\"></i></button><button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"remove\"><i class=\"fas fa-times\"></i></button></div></div><!-- /.card-header --><div class=\"card-body\"></div><!-- /.card-body --></div><!-- /.card --></div>", 1);
+var _hoisted_18 = {
+  "class": "col-md-7"
+};
+var _hoisted_19 = {
+  "class": "card"
+};
+
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header\"><h3 class=\"card-title\"><i class=\"fa fa-files-o mr-1\"></i> Ledger </h3><div class=\"card-tools\"><button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\"><i class=\"fas fa-minus\"></i></button><button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"remove\"><i class=\"fas fa-times\"></i></button></div></div>", 1);
+
+var _hoisted_21 = {
+  "class": "card-body"
+};
+var _hoisted_22 = {
+  "class": "table table-bordered",
+  style: {
+    "height": "400px",
+    "max-height": "400px",
+    "overflow-y": "scroll"
+  }
+};
+var _hoisted_23 = {
+  colspan: "4"
+};
+
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Date"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Details"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Debit"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Credit")], -1
+/* HOISTED */
+);
+
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, "Balance", -1
+/* HOISTED */
+);
+
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, null, -1
+/* HOISTED */
+);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card-header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("table", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", _hoisted_7, "Profit and Loss Statement of: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.thisYear), 1
@@ -28860,7 +29361,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* KEYED_FRAGMENT */
   )), _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [_hoisted_16, _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.format_number($options.PorL)), 1
   /* TEXT */
-  )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card-body ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card ")]), _hoisted_18]);
+  )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card-body ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card-header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("table", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", _hoisted_23, "Ledger of: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.thisYear), 1
+  /* TEXT */
+  )]), _hoisted_24]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.records, function (record, key) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tbody", {
+      key: key
+    }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(record, function (transaction) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tr", {
+        key: transaction
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(key), 1
+      /* TEXT */
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(transaction.details), 1
+      /* TEXT */
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.format_number(transaction.type === 'debit' ? transaction.cash : null)), 1
+      /* TEXT */
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.format_number(transaction.type === 'credit' ? transaction.cash : null)), 1
+      /* TEXT */
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <td >{{  transaction.type === 'debit' ? balance -= transaction.cash : balance += transaction.cash }}</td> ")]);
+    }), 128
+    /* KEYED_FRAGMENT */
+    ))]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tfoot", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [_hoisted_25, _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.format_number($options.balance < 0 ? $options.balance : null)), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.format_number($options.balance > 0 ? $options.balance : null)), 1
+  /* TEXT */
+  )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card-body ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card ")])]);
 }
 
 /***/ }),

@@ -17,11 +17,11 @@ class FinanceController extends Controller
     public function index()
     {
         date_default_timezone_set('Africa/Nairobi');
-        $capitals = Capital::all();
-        $track_records = TrackRecord::all();
-        $bills = Bill::with('expense')->get();
-        // $now = date('Y-m-d');
         $date = Carbon::now();
+        $capitals = Capital::whereYear('date',$date->year)->get();
+        $track_records = TrackRecord::with('truck')->with('region')->with('client')->whereYear('date',$date->year)->get();
+        $bills = Bill::with('expense')->with('truck')->whereYear('date',$date->year)->get();
+        // $now = date('Y-m-d');
         $invoices = Invoice::whereYear('end',$date->year)
                             ->where('status','=','Paid')->get();
 

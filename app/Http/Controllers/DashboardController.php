@@ -7,6 +7,10 @@ use App\Models\Truck;
 use App\Models\Client;
 use App\Models\TrackRecord;
 use App\Models\Bill;
+use App\Models\Capital;
+use App\Models\Invoice;
+
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -19,11 +23,18 @@ class DashboardController extends Controller
     {
         $trucks = Truck::all();
         $clients = Client::all();
-        $trackRecords = Client::all();
+        date_default_timezone_set('Africa/Nairobi');
+        $date = Carbon::now();
+        $capitals = Capital::whereMonth('date',$date->month)->get();
+        $track_records = TrackRecord::with('truck')->with('region')->with('client')->whereMonth('date',$date->month)->get();
+        $bills = Bill::with('expense')->with('truck')->whereMonth('date',$date->month)->get(); 
+        
         return Inertia::render('Dashboard',[
             'trucks' => $trucks,
             'clients' => $clients,
-            'trackRecords' => $trackRecords
+            'capitals' => $capitals,
+            'bills' => $bills,
+            'track_records' => $track_records,
         ]);
     }
 
