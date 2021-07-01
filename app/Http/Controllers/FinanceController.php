@@ -18,11 +18,11 @@ class FinanceController extends Controller
     {
         date_default_timezone_set('Africa/Nairobi');
         $date = Carbon::now();
-        $capitals = Capital::whereYear('date',$date->year)->get();
-        $track_records = TrackRecord::with('truck')->with('region')->with('client')->whereYear('date',$date->year)->get();
-        $bills = Bill::with('expense')->with('truck')->whereYear('date',$date->year)->get();
+        $capitals = Capital::whereYear('date',date('Y'))->get();
+        $track_records = TrackRecord::with('truck')->with('region')->with('client')->whereYear('date',date('Y'))->get();
+        $bills = Bill::with('expense')->with('truck')->whereYear('date',date('Y'))->get();
         // $now = date('Y-m-d');
-        $invoices = Invoice::whereYear('end',$date->year)
+        $invoices = Invoice::whereYear('end',date('Y'))
                             ->where('status','=','Paid')->get();
 
         // dd($invoices);

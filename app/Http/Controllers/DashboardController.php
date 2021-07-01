@@ -24,10 +24,10 @@ class DashboardController extends Controller
         $trucks = Truck::all();
         $clients = Client::all();
         date_default_timezone_set('Africa/Nairobi');
-        $date = Carbon::now();
-        $capitals = Capital::whereMonth('date',$date->month)->get();
-        $track_records = TrackRecord::with('truck')->with('region')->with('client')->whereMonth('date',$date->month)->get();
-        $bills = Bill::with('expense')->with('truck')->whereMonth('date',$date->month)->get(); 
+        $date = date('m-d-Y', time());
+        $capitals = Capital::whereMonth('date',date('m'))->get();
+        $track_records = TrackRecord::with('truck')->with('region')->with('client')->whereMonth('date',date('m'))->get();
+        $bills = Bill::with('expense')->with('truck')->whereMonth('date',date('m'))->get(); 
         
         return Inertia::render('Dashboard',[
             'trucks' => $trucks,
