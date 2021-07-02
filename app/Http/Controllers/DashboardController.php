@@ -25,9 +25,9 @@ class DashboardController extends Controller
         $clients = Client::all();
         date_default_timezone_set('Africa/Nairobi');
         // $date = date('m-d-Y', time());
-        $capitals = Capital::whereRaw('extract(month from date) = ?', [Carbon::today()->month])->orderBy ('date', 'asc')->get();
-        $track_records = TrackRecord::with('truck')->with('region')->with('client')->whereRaw('extract(month from date) = ?', [Carbon::today()->month])->orderBy ('date', 'asc')->get();
-        $bills = Bill::with('expense')->with('truck')->whereRaw('extract(month from date) = ?', [Carbon::today()->month])->orderBy ('date', 'asc')->get(); 
+        $capitals = Capital::query()->whereRaw('extract(month from date) = ?', [Carbon::today()->month])->orderBy ('date', 'asc')->get();
+        $track_records = TrackRecord::query()->with('truck')->with('region')->with('client')->whereRaw('extract(month from date) = ?', [Carbon::today()->month])->orderBy ('date', 'asc')->get();
+        $bills = Bill::query()->whereRaw('extract(month from date) = ?', [Carbon::today()->month])->orderBy ('date', 'asc')->with('expense')->with('truck')->get(); 
         
         return Inertia::render('Dashboard',[
             'trucks' => $trucks,
