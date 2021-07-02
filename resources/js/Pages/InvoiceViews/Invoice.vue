@@ -37,8 +37,8 @@
                     <address>
                     <strong>{{ invoice.client.name }}</strong><br>
                     {{invoice.client.address}}<br>
-                    Phone: {{invoice.client.phone_number}}<br>
-                    Email: {{invoice.client.email}}
+                    <!-- Phone: {{invoice.client.phone_number}}<br>
+                    Email: {{invoice.client.email}} -->
                     </address>
                 </div>
                 <!-- /.col -->
@@ -54,7 +54,7 @@
                 <!-- Table row -->
                 <div class="row">
                 <div class="col-12 table-responsive">
-                    <table class="table table-striped table-bordered my-0">
+                    <table class="table table-striped table-bordered my-0 table-sm">
                         <thead>
                             <tr>
                                 <th>Service Date</th>
@@ -85,7 +85,7 @@
                 <!-- /.col -->
                 <div class="col-4">
                     <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-responsive table-sm">
                         <tr>
                         <th>TOTAL:</th>
                         <td>{{ format_number(invoice.total) }}</td>
