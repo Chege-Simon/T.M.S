@@ -42,8 +42,8 @@
                         <address>
                         <strong>{{invoice.client.name}}</strong><br>
                         {{invoice.client.address}}<br>
-                        Phone: {{invoice.client.phone_number}}<br>
-                        Email: {{invoice.client.email}}
+                        <!-- Phone: {{invoice.client.phone_number}}<br>
+                        Email: {{invoice.client.email}} -->
                         </address>
                     </div>
                     <!-- /.col -->
