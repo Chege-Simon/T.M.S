@@ -102,7 +102,7 @@ class ExpenseController extends Controller
             return Redirect::route('expenses.index')->with('error', 'Oops...Expense Does Not exist!', );
         }
         $request->validate([
-            'expense_type' => 'required|exists:expenses',
+            'expense_type' => 'required',
             'account' => 'required|max:50',
         ]);
         $expense->update($request->all());
