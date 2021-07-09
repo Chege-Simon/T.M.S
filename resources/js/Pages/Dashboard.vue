@@ -82,8 +82,8 @@
                   </button>
                 </div>
               </div><!-- /.card-header -->
-              <div class="card-body">
-                <table class="table table-bordered table-responsive">
+              <div class="card-body table-responsive">
+                <table class="table table-bordered">
                 <thead>
                     <tr>
                       <th colspan="4">Ledger of: {{ when }}</th>

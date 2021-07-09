@@ -28040,10 +28040,10 @@ var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 );
 
 var _hoisted_30 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_31 = {
-  "class": "table table-bordered table-responsive"
+  "class": "table table-bordered"
 };
 var _hoisted_32 = {
   colspan: "4"
