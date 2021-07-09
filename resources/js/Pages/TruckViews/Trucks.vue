@@ -25,8 +25,8 @@
                 </div>
             </div>
             <!-- /.card-header -->
-            <div class="card-body">
-            <table id="example1" class="table table-bordered table-striped table-responsive">
+            <div class="card-body table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th @click="sort('number_plate')">

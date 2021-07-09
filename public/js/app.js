@@ -24798,11 +24798,11 @@ var _hoisted_10 = {
   "class": "col-md-2"
 };
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_12 = {
   id: "example1",
-  "class": "table table-bordered table-striped table-responsive"
+  "class": "table table-bordered table-striped"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Date ");
@@ -25466,11 +25466,11 @@ var _hoisted_10 = {
   "class": "col-md-2"
 };
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_12 = {
   id: "example1",
-  "class": "table table-bordered table-striped table-responsive"
+  "class": "table table-bordered table-striped"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Asset Type ");
@@ -26113,11 +26113,11 @@ var _hoisted_10 = {
   "class": "col-md-2"
 };
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_12 = {
   id: "example1",
-  "class": "table table-bordered table-striped table-responsive"
+  "class": "table table-bordered table-striped"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Name ");
@@ -26762,11 +26762,11 @@ var _hoisted_10 = {
   "class": "col-md-2"
 };
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_12 = {
   id: "example1",
-  "class": "table table-bordered table-striped table-responsive"
+  "class": "table table-bordered table-striped"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, " Name "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, " Phone Number "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, " Email "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, " Address "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, " Bank account "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", {
@@ -27304,11 +27304,11 @@ var _hoisted_10 = {
   "class": "col-md-2"
 };
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_12 = {
   id: "example1",
-  "class": "table table-bordered table-striped table-responsive"
+  "class": "table table-bordered table-striped"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, " Name "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, " Description "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, " Company "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, " Date "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", null, " Period "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("th", {
@@ -27899,7 +27899,10 @@ var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
   href: "#",
-  "class": "small-box-footer"
+  "class": "small-box-footer",
+  style: {
+    "height": "3em"
+  }
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("More info "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "fas fa-arrow-circle-right"
 })], -1
@@ -27930,7 +27933,10 @@ var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 
 var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
   href: "/track-record",
-  "class": "small-box-footer"
+  "class": "small-box-footer",
+  style: {
+    "height": "3em"
+  }
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("More info "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "fas fa-arrow-circle-right"
 })], -1
@@ -27961,7 +27967,10 @@ var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 
 var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
   href: "/trucks",
-  "class": "small-box-footer"
+  "class": "small-box-footer",
+  style: {
+    "height": "3em"
+  }
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("More info "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "fas fa-arrow-circle-right"
 })], -1
@@ -27992,7 +28001,10 @@ var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 
 var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
   href: "/clients",
-  "class": "small-box-footer"
+  "class": "small-box-footer",
+  style: {
+    "height": "3em"
+  }
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("More info "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "fas fa-arrow-circle-right"
 })], -1
@@ -28169,11 +28181,11 @@ var _hoisted_10 = {
   "class": "col-md-2"
 };
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_12 = {
   id: "example1",
-  "class": "table table-bordered table-striped table-responsive"
+  "class": "table table-bordered table-striped"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Name ");
@@ -28830,11 +28842,11 @@ var _hoisted_10 = {
   "class": "col-md-2"
 };
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_12 = {
   id: "example1",
-  "class": "table table-bordered table-striped table-responsive"
+  "class": "table table-bordered table-striped"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Expense ");
@@ -29255,10 +29267,10 @@ var _hoisted_3 = {
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header\"><h3 class=\"card-title\"><i class=\"fa fa-line-chart mr-1\"></i> Profit and Loss Report </h3><div class=\"card-tools\"><button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\"><i class=\"fas fa-minus\"></i></button><button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"remove\"><i class=\"fas fa-times\"></i></button></div></div>", 1);
 
 var _hoisted_5 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_6 = {
-  "class": "table table-bordered table-responsive"
+  "class": "table table-bordered"
 };
 var _hoisted_7 = {
   colspan: "3"
@@ -29314,10 +29326,10 @@ var _hoisted_19 = {
 var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header\"><h3 class=\"card-title\"><i class=\"fa fa-files-o mr-1\"></i> Ledger </h3><div class=\"card-tools\"><button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\"><i class=\"fas fa-minus\"></i></button><button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"remove\"><i class=\"fas fa-times\"></i></button></div></div>", 1);
 
 var _hoisted_21 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_22 = {
-  "class": "table table-bordered table-responsive",
+  "class": "table table-bordered",
   style: {
     "height": "400px",
     "max-height": "400px",
@@ -29695,11 +29707,11 @@ var _hoisted_10 = {
   "class": "col-md-2"
 };
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_12 = {
   id: "example1",
-  "class": "table table-bordered table-striped table-responsive"
+  "class": "table table-bordered table-striped"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Invoice No. ");
@@ -31763,11 +31775,11 @@ var _hoisted_10 = {
   "class": "col-md-2"
 };
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_12 = {
   id: "example1",
-  "class": "table table-bordered table-striped table-responsive"
+  "class": "table table-bordered table-striped"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Name ");
@@ -32459,11 +32471,11 @@ var _hoisted_10 = {
   "class": "col-md-2"
 };
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_12 = {
   id: "example1",
-  "class": "table table-bordered table-striped table-responsive"
+  "class": "table table-bordered table-striped"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Date ");
@@ -33330,11 +33342,11 @@ var _hoisted_10 = {
   "class": "col-md-2"
 };
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body table-responsive"
 };
 var _hoisted_12 = {
   id: "example1",
-  "class": "table table-bordered table-striped table-responsive"
+  "class": "table table-bordered table-striped"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Number Plate ");

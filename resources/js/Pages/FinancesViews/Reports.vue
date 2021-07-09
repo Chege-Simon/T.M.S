@@ -16,8 +16,8 @@
                   </button>
                 </div>
               </div><!-- /.card-header -->
-              <div class="card-body">
-                <table class="table table-bordered table-responsive">
+              <div class="card-body table-responsive">
+                <table class="table table-bordered">
                 <thead>
                     <tr>
                       <th colspan="3">Profit and Loss Statement of: {{ thisYear }}</th>
@@ -72,8 +72,8 @@
                   </button>
                 </div>
               </div><!-- /.card-header -->
-              <div class="card-body">
-                <table class="table table-bordered table-responsive" style="height: 400px;max-height: 400px;overflow-y: scroll;">
+              <div class="card-body table-responsive">
+                <table class="table table-bordered" style="height: 400px;max-height: 400px;overflow-y: scroll;">
                 <thead>
                     <tr>
                       <th colspan="4">Ledger of: {{ thisYear }}</th>
